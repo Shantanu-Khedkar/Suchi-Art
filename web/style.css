@@ -2,6 +2,17 @@ nav {
     background-color: #f8f9faa8;
     backdrop-filter: blur(10px);
 }
+.button{
+    all:unset;
+    display: inline;
+    width: fit-content;
+    background-color: #f2544b;
+    text-decoration: none;
+}
+.button:hover{
+    text-decoration: none;
+}
+
 .rounded{
     border-radius: 15px !important;
 }
@@ -44,12 +55,3 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
     margin: 0px;
 }
 
-.btn-primary {
-    background-color: #f2544b;
-    border: none;
-}
-
-.btn-primary:hover {
-    background-color: #f2544b;
-    border: none;
-}
