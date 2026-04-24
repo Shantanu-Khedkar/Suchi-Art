@@ -1,0 +1,55 @@
+nav {
+    background-color: #f8f9faa8;
+    backdrop-filter: blur(10px);
+}
+.rounded{
+    border-radius: 15px !important;
+}
+.hero{
+    background: #F1C7BD;
+background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198, 1) 50%, rgba(200, 222, 226, 1) 100%);
+}
+.banner {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-image: url("../assets/banner-transparent.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+
+    flex-grow: 1;
+    max-height: 80vh;
+
+    aspect-ratio: 1/1;
+
+}
+
+.greeting {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    box-sizing: border-box;
+}
+
+.greeting h3 {
+    max-width: 90%;
+    display: block;
+}
+
+.greeting h5 {
+    margin: 0px;
+}
+
+.btn-primary {
+    background-color: #f2544b;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #f2544b;
+    border: none;
+}
