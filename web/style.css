@@ -28,7 +28,7 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url("../assets/banner-transparent.png");
+    background-image: url("../assets/banner-transparent-cleaned.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
