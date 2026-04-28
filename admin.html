@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Drive API Quickstart</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+
+<body>
+    <center>
+        <h1>Firebase Admin</h1>
+        <hr>
+        <div action="#" id="login-form">
+            <input placeholder="Email" type="text"><br>
+            <input placeholder="Password" type="text"><br><br>
+            <button class="btn-primary btn" id="submit-btn">Authorize Firebase</button>
+            <br><br>
+            <button class="btn-secondary btn" id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+            <br><br>
+            <button class="btn-danger btn" id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
+        </div>
+        <br>
+
+        <!--Add buttons to initiate auth sequence and sign out-->
+
+        <pre id="content" style="white-space: pre-wrap;"></pre>
+    </center>
+    <script>
+        function regularFunction() {
+            console.log("This is a regular function.");
+        }
+        /* exported gapiLoaded */
+        /* exported gisLoaded */
+        /* exported handleAuthClick */
+        /* exported handleSignoutClick */
+
+        // TODO(developer): Set to client ID from the Developer Console
+        const CLIENT_ID = '188405063636-1rpla1oofgf4fcgv4ceb0scnoelrnb6m.apps.googleusercontent.com';
+
+        // Discovery doc URL for APIs used by the quickstart
+        const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
+
+        // Authorization scopes required by the API; multiple scopes can be
+        // included, separated by spaces.
+        const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
+
+        let tokenClient;
+        let gapiInited = false;
+        let gisInited = false;
+
+        document.getElementById('authorize_button').style.visibility = 'hidden';
+        document.getElementById('signout_button').style.visibility = 'hidden';
+
+        /**
+         * Callback after api.js is loaded.
+         */
+        function gapiLoaded() {
+            gapi.load('client', initializeGapiClient);
+        }
+
+        /**
+         * Callback after the API client is loaded. Loads the
+         * discovery doc to initialize the API.
+         */
+        async function initializeGapiClient() {
+            await gapi.client.init({
+                discoveryDocs: [DISCOVERY_DOC],
+            });
+            gapiInited = true;
+            maybeEnableButtons();
+        }
+
+        /**
+         * Callback after Google Identity Services are loaded.
+         */
+        function gisLoaded() {
+            tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: CLIENT_ID,
+                scope: SCOPES,
+                callback: '', // defined later
+            });
+            gisInited = true;
+            maybeEnableButtons();
+        }
+
+        /**
+         * Enables user interaction after all libraries are loaded.
+         */
+        function maybeEnableButtons() {
+            if (gapiInited && gisInited) {
+                document.getElementById('authorize_button').style.visibility = 'visible';
+            }
+        }
+
+        /**
+         *  Sign in the user upon button click.
+         */
+        function handleAuthClick() {
+            tokenClient.callback = async (resp) => {
+                if (resp.error !== undefined) {
+                    throw (resp);
+                }
+                document.getElementById('signout_button').style.visibility = 'visible';
+                document.getElementById('authorize_button').innerText = 'Refresh';
+                console.log("Drive Auth Success")
+
+            };
+
+            if (gapi.client.getToken() === null) {
+                // Prompt the user to select a Google Account and ask for consent to share their data
+                // when establishing a new session.
+                tokenClient.requestAccessToken({ prompt: 'consent' });
+            } else {
+                // Skip display of account chooser and consent dialog for an existing session.
+                tokenClient.requestAccessToken({ prompt: '' });
+            }
+        }
+
+        /**
+         *  Sign out the user upon button click.
+         */
+        function handleSignoutClick() {
+            const token = gapi.client.getToken();
+            if (token !== null) {
+                google.accounts.oauth2.revoke(token.access_token);
+                gapi.client.setToken('');
+                document.getElementById('content').innerText = '';
+                document.getElementById('authorize_button').innerText = 'Authorize';
+                document.getElementById('signout_button').style.visibility = 'hidden';
+            }
+        }
+
+        /**
+         * Print metadata for first 10 files.
+         */
+        async function listFiles() {
+            let response;
+            try {
+                response = await gapi.client.drive.files.list({
+                    'pageSize': 10,
+                    'fields': 'files(id, name)',
+                });
+            } catch (err) {
+                document.getElementById('content').innerText = err.message;
+                return;
+            }
+            const files = response.result.files;
+            if (!files || files.length == 0) {
+                document.getElementById('content').innerText = 'No files found.';
+                return;
+            }
+            // Flatten to string to display
+            const output = files.reduce(
+                (str, file) => `${str}${file.name} (${file.id})\n`,
+                'Files:\n');
+            document.getElementById('content').innerText = output;
+        }
+
+        async function listAllFiles(parent) {
+            let response;
+            try {
+                response = await gapi.client.drive.files.list({
+                    'pageSize': 1000,
+
+                });
+            } catch (err) {
+                document.getElementById('content').innerText = err.message;
+                return;
+            }
+            const files = response.result.files;
+            if (!files || files.length == 0) {
+                document.getElementById('content').innerText = 'No files found.';
+                return;
+            } else {
+                return files
+            }
+
+        }
+    </script>
+
+    <script type="module">
+
+        // Import the functions you need from the SDKs you need
+
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+
+
+        // Firebase configuration
+
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcTwe6bEPnhd1EBBAP99HGRJNFSFXNoQ4", // To anyone reading the code: Please do not get excited, the api key is not designed to be a secret (source: Firebase Docs) and there are additional checks like email and password provided by Firebase Security Rules...
+            authDomain: "suchi-art.firebaseapp.com",
+            databaseURL: "https://suchi-art-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "suchi-art",
+            storageBucket: "suchi-art.firebasestorage.app",
+            messagingSenderId: "188405063636",
+            appId: "1:188405063636:web:91bf35c72e45ef8b250041"
+        };
+
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+
+
+        /*
+        function writeUserData(uid, userId, name, email) {
+            console.log(uid)
+            set(ref(database, 'users/' + userId), {
+
+                username: name,
+                email: email
+            }).then(() => {
+                console.log('User data written successfully.');
+            }).catch((error) => {
+                console.error('Error writing user data: ', error);
+            });
+        }*/
+        function createFileIndex(f) {
+            var name = f.name.split(".")[0];
+            set(ref(database, 'images/' + name), {
+                id: f.id,
+                description: "",
+                tags: "",
+                date: ""
+            }).then(() => {
+                console.log(`${name} Index Created`);
+                return 1
+            }).catch((error) => {
+                console.error('Error Creating File Index: ', error);
+                return 0
+            });
+        }
+        function createTagIndex(f) {
+            var name = f.name.split(".")[0];
+            set(ref(database, 'tags/' + f.name), {
+                id: f.id,
+                description: "",
+                date: ""
+            }).then(() => {
+                console.log(`${name} Index Created`);
+                return 1
+            }).catch((error) => {
+                console.error('Error Creating Tag Index: ', error);
+                return 0
+            });
+        }
+        function pushItems(path, items) {
+            set(ref(database, path), items).then(() => {
+                console.log(`${path} Nodes Created`);
+                return 1
+            }).catch((error) => {
+                console.error('Error Creating Nodes: ', error);
+                return 0
+            });
+        }
+
+        function startAuth(userEmail, userPassword) {
+            userEmail = document.getElementById('login-form').children[0].value
+            userPassword = document.getElementById('login-form').children[2].value
+            console.log(userEmail, userPassword)
+            signInWithEmailAndPassword(auth, userEmail, userPassword)
+                .then((userCredential) => {
+                    // Signed in
+                    const user = userCredential.user;
+                    console.log("User signed in:", user.uid);
+                    enterAdminPanel(user.uid)
+                    //getDriveFiles()
+                    driveUpdate()
+                })
+                .catch((error) => {
+                    const errorCode = error.code;
+                    const errorMessage = error.message;
+                    console.error("Error signing in:", errorCode, errorMessage);
+                    // Handle errors, e.g., display a message to the user
+                });
+        }
+        function enterAdminPanel(uid) {
+            console.log("Admin")
+            //writeUserData(uid, 0, "test", "test@test.com")
+        }
+        async function driveUpdate() {
+            var files = await listAllFiles("root")
+            var count = 0
+            var images = {}
+            var collections = {}
+            console.log(files)
+            files.forEach((f) => {
+                var name = f.name.split(".")[0];
+                if (f.mimeType.includes("image")) {
+                    images[name] = { "images": [f.id], "desc": "", "collections": ["isImage", "isProject"] }
+                } else if (f.mimeType == "application/vnd.google-apps.folder") {
+                    collections[name] = { "images": ["NO_IMAGE"], "id": f.id, "desc": "" }
+                }
+            })
+            console.log(images, collections)
+            pushItems("images", images)
+            pushItems("collections", collections)
+
+        }
+        document.getElementById("submit-btn").addEventListener("click", startAuth)
+    </script>
+
+    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
+    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+</body>
+
+</html>
+</body>
+
+</html>

@@ -11,6 +11,10 @@ nav {
     width: fit-content;
     background-color: #f2544b;
     text-decoration: none;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: white;
 }
 .button:hover{
     text-decoration: none;
@@ -58,3 +62,26 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
     margin: 0px;
 }
 
+
+
+.card-img-top{
+    aspect-ratio: 2/3;
+    object-fit: cover;
+    
+}
+.card{
+    min-width: 200px;
+    width: fit-content;
+    max-width: 300px;
+    overflow:hidden;
+}
+.card-text{
+    margin-bottom: 2em;
+}
+.gallery{
+    gap:20px;
+}
+.gallery .col-sm-4{
+    min-width: min-content;
+    max-width: max-content;
+}
