@@ -67,7 +67,8 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
 .card-img-top{
     aspect-ratio: 2/3;
     object-fit: cover;
-    
+    display: flex;
+    align-items: center;
 }
 .card{
     min-width: 200px;

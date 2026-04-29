@@ -36,10 +36,18 @@
 
         <pre id="content" style="white-space: pre-wrap;"></pre>
     </center>
+    <div class="container-fluid text-center">
+        <div class="row justify-content-center gallery mb-5" id="gallery">
+
+        </div>
+        <button class="btn-primary btn " id="loadMore">Load More</button>
+    </div>
+
+
     <template>
         <div class="col-sm-4 justify-content-center row">
             <div class="card rounded">
-                <img class="card-img-top" src="assets/logo.png" alt="Card image cap">
+                <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
                 <div class="card-body">
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of
@@ -49,14 +57,9 @@
             </div>
         </div>
     </template>
-    <div class="container-fluid ">
-        <div class="row justify-content-center gallery mb-5" id="gallery">
-        </div>
-    </div>
+
     <script>
-        function regularFunction() {
-            console.log("This is a regular function.");
-        }
+
         /* exported gapiLoaded */
         /* exported gisLoaded */
         /* exported handleAuthClick */
@@ -313,7 +316,8 @@
                     enterAdminPanel(user.uid)
 
                     //driveUpdate() // Initialise rtdb with skeleton drive data
-                    loadProjects()
+                    //loadProjects()
+                    initalisePanel()
                 })
                 .catch((error) => {
                     const errorCode = error.code;
@@ -344,29 +348,67 @@
             pushItems("collections", collections)
 
         }
-
-        async function loadProjects() {
-            const projects = await pullItems("/images")
+        const gallery = document.getElementById('gallery')
+        let projects = {};
+        let collections = {};
+        async function initalisePanel() {
+            projects = await pullItems("/images")
             const collections = await pullItems("/collections")
             console.log(projects, collections)
+            //await loadCollections(collections, 20, gallery);
+            await loadProjects(projects, 20, gallery);
+        }
+
+        async function loadProjects(projects, length, gallery) {
             Object.keys(projects).forEach((project) => {
-                listProject(project, projects[project], document.getElementById('gallery'))
+                if (gallery.getElementsByClassName(project.replaceAll(" ", "-")).length == 0 && length > 0) {
+                    listCollection(project, projects[project], gallery)
+                    length--;
+                }
+            })
+        }
+        async function loadCollections(collections, length, gallery) {
+            Object.keys(collections).forEach((collection) => {
+                if (gallery.getElementsByClassName(collection.replaceAll(" ", "-")).length == 0 && length > 0) {
+                    listCollection(collection, collections[collection], gallery)
+                    length--;
+                }
             })
         }
         function listProject(project, details, gallery) {
             let temp = document.getElementsByTagName("template")[0];
             let clon = document.importNode(temp.content, true);
+
             let cardTitle = clon.querySelector('.card-title');
             let cardDesc = clon.querySelector('.card-text');
             let cardImage = clon.querySelector('.card-img-top');
             cardTitle.textContent = project
             cardDesc.textContent = details.desc
+            clon.firstElementChild.classList.add(project.replace(" ", "-"))
             cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
-           // getFile(details.images[0])
+            // getFile(details.images[0])
+            console.log(clon)
+            gallery.appendChild(clon);
+        }
+        function listCollection(collection, details, gallery) {
+            let temp = document.getElementsByTagName("template")[0];
+            let clon = document.importNode(temp.content, true);
+
+            let cardTitle = clon.querySelector('.card-title');
+            let cardDesc = clon.querySelector('.card-text');
+            let cardImage = clon.querySelector('.card-img-top');
+            cardTitle.textContent = collection
+            cardDesc.textContent = details.desc
+            clon.firstElementChild.classList.add(collection.replaceAll(" ", "-"))
+            cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
+            // getFile(details.images[0])
             console.log(clon)
             gallery.appendChild(clon);
         }
         document.getElementById("submit-btn").addEventListener("click", startAuth)
+        document.getElementById("loadMore").addEventListener('click', function () {
+            loadProjects(projects, 20, gallery);
+        });
     </script>
 
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
