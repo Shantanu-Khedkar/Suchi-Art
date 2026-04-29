@@ -36,12 +36,35 @@
 
         <pre id="content" style="white-space: pre-wrap;"></pre>
     </center>
-    <div class="container-fluid text-center">
+    <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center;">
         <div class="row justify-content-center gallery mb-5" id="gallery">
 
         </div>
-        <button class="btn-primary btn " id="loadMore">Load More</button>
+        <button class="btn-primary btn" id="loadMore">Load More</button>
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle"
+        aria-hidden="true" data-source="">
+        <div class="modal-dialog modal-dialog-centered " role="document">
+            <div class="modal-content row align-items-center">
+                <div class="card rounded">
+                    <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
+                    <div class="card-body">
+                        <h5 class="card-title" contenteditable="true">Card title</h5>
+                        <p class="card-text" contenteditable="true">Some quick example text to build on the card title
+                            and make up the bulk of
+                            the card's content.</p>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="uploadChanges">Save changes</button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 
 
     <template>
@@ -52,7 +75,8 @@
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of
                         the card's content.</p>
-                    <a href="#" class="button rounded">Go somewhere</a>
+                    <a href="#" class="container button rounded text-light" data-toggle="modal"
+                        data-target="#editModal">Edit</a>
                 </div>
             </div>
         </div>
@@ -193,6 +217,7 @@
             let response;
             try {
                 response = await gapi.client.drive.files.list({
+                    'q': "trashed = false",
                     'pageSize': 1000,
 
                 });
@@ -218,7 +243,7 @@
         // Import the functions you need from the SDKs you need
 
         import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-        import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
+        import { getDatabase, ref, set, get, child, remove} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
         import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
 
@@ -287,6 +312,14 @@
                 console.error('Error Creating Nodes: ', error);
             });
         }
+        function updateItems(oldPath, path, items) {
+            if (oldPath == path){
+                pushItems(path, items)
+            }else{
+                pushItems(path, items)
+                remove(ref(database, oldPath));
+            }
+        }
         function pullItems(path) {
             return new Promise((resolve, reject) => {
                 get(child(ref(database), `${path}`)).then((snapshot) => {
@@ -332,36 +365,44 @@
         async function driveUpdate() {
             var files = await listAllFiles("root")
             var count = 0
+            var prjcts = {}
             var images = {}
             var collections = {}
             console.log(files)
             files.forEach((f) => {
                 var name = f.name.split(".")[0];
                 if (f.mimeType.includes("image")) {
-                    images[name] = { "images": [f.id], "desc": "", "collections": ["isImage", "isProject"] }
+                    prjcts[name] = { "images": [f.id], "desc": "", "collections": [] }
+                    images[name] = { "id": f.id }
                 } else if (f.mimeType == "application/vnd.google-apps.folder") {
                     collections[name] = { "images": ["NO_IMAGE"], "id": f.id, "desc": "" }
                 }
             })
             console.log(images, collections)
+            pushItems("projects", prjcts)
             pushItems("images", images)
             pushItems("collections", collections)
 
         }
         const gallery = document.getElementById('gallery')
         let projects = {};
+        let images = {}
         let collections = {};
         async function initalisePanel() {
-            projects = await pullItems("/images")
-            const collections = await pullItems("/collections")
+            //await driveUpdate()
+            projects = await pullItems("/projects")
+            collections = await pullItems("/collections")
+            images = await pullItems("/images")
             console.log(projects, collections)
-            //await loadCollections(collections, 20, gallery);
-            await loadProjects(projects, 20, gallery);
+
+            await loadCollections(collections, 20, gallery);
+            //await loadProjects(projects, 20, gallery);
         }
 
         async function loadProjects(projects, length, gallery) {
+            console.log(gallery)
             Object.keys(projects).forEach((project) => {
-                if (gallery.getElementsByClassName(project.replaceAll(" ", "-")).length == 0 && length > 0) {
+                if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0) {
                     listCollection(project, projects[project], gallery)
                     length--;
                 }
@@ -369,7 +410,7 @@
         }
         async function loadCollections(collections, length, gallery) {
             Object.keys(collections).forEach((collection) => {
-                if (gallery.getElementsByClassName(collection.replaceAll(" ", "-")).length == 0 && length > 0) {
+                if (gallery.querySelectorAll(`[name="${collection.replaceAll(" ", "-")}"]`).length == 0 && length > 0) {
                     listCollection(collection, collections[collection], gallery)
                     length--;
                 }
@@ -384,7 +425,7 @@
             let cardImage = clon.querySelector('.card-img-top');
             cardTitle.textContent = project
             cardDesc.textContent = details.desc
-            clon.firstElementChild.classList.add(project.replace(" ", "-"))
+            clon.firstElementChild.name = project.replace(" ", "-")
             cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
             // getFile(details.images[0])
             console.log(clon)
@@ -399,7 +440,7 @@
             let cardImage = clon.querySelector('.card-img-top');
             cardTitle.textContent = collection
             cardDesc.textContent = details.desc
-            clon.firstElementChild.classList.add(collection.replaceAll(" ", "-"))
+            clon.firstElementChild.name = collection.replace(" ", "-")
             cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
             // getFile(details.images[0])
             console.log(clon)
@@ -408,6 +449,36 @@
         document.getElementById("submit-btn").addEventListener("click", startAuth)
         document.getElementById("loadMore").addEventListener('click', function () {
             loadProjects(projects, 20, gallery);
+        });
+        $(document).ready(function () {
+            $('#editModal').on('show.bs.modal', function (event) {
+                var button = $(event.relatedTarget) // Button that triggered the modal
+                var title = button.siblings()[0].innerText
+                var text = button.siblings()[1].innerText
+                var card = button.parent().parent().parent()
+                var oldPath = card[0].name.replaceAll("-", " ")// Extract info from data-* attributes
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                var modal = $(this)
+                modal.data('source', oldPath);
+                console.log($(this))
+                modal.find('.card-title').text(title)
+                modal.find('.card-text').text(text)
+                modal.find('.card-img-top')[0].src = button.parent().siblings()[0].src
+            })
+            $('#uploadChanges').on('click', function (event) {
+                var button = $(this) // Button that triggered the modal
+                console.log(button)
+                var title = button.siblings()[0].innerText
+                var text = button.siblings()[1].innerText
+                console.log(button) // Extract info from data-* attributes
+                var modal = button.parent().parent().parent().parent().parent()
+                var oldPath = modal.data('source')
+                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+                updateItems(`/projects/${oldPath}`, `/projects/${title}`, {"desc":text, images:["1xpiQvduZcWkt2SU2jIS4uwmQDm9BoauO"]})
+
+            })
         });
     </script>
 
