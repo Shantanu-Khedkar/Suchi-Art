@@ -60,9 +60,22 @@
     <script src="web/client.js" type="module"></script>
     <script type="module">
         import * as gly from './web/gallery.js';
-        gly.initalisePanel(1, 10, document.getElementById('gallery'))
+
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+
+        var collection = getParameterByName('collection');
+        console.log(collection)
+        gly.initalisePanel(1, 10, document.getElementById('gallery'), collection)
         document.getElementById("loadMore").addEventListener('click', function () {
-            gly.loadProjects(projects, 20, gallery);
+            gly.loadProjects(projects, 20, gallery, collection);
         });
     </script>
 

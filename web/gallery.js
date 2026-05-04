@@ -24,10 +24,10 @@ Object.defineProperty(window, 'collections', {
 });
 
 //Function To Initialise Gallery and Admin Panel
-export async function initalisePanel(p, n, g) { // p = projects/collections, n = number, g = gallery
+export async function initalisePanel(p, n, g, t) { // p = projects/collections, n = number, g = gallery
     await fb.pullData()
     if (p == 1) {
-        await loadProjects(projects, n, g);
+        await loadProjects(projects, n, g, t);
     } else {
         await loadCollections(collections, n, g);
     }
@@ -36,10 +36,10 @@ export async function initalisePanel(p, n, g) { // p = projects/collections, n =
 
 //Functions To Iterate Over Projects/Collections and List
 // replaceAll required as DOM tokens cant have whitespaces
-export async function loadProjects(projects, length, gallery) {
-    console.log(gallery)
+export async function loadProjects(projects, length, gallery, tag) {
+    console.log(tag)
     Object.keys(projects).forEach((project) => {
-        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0) {
+        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0 && projects[project].collections.includes(tag)) {
             listProject(project, projects[project], gallery)
             length--;
         }
@@ -81,8 +81,10 @@ export function listCollection(collection, details, gallery) {
     let cardTitle = clon.querySelector('.card-title');
     let cardDesc = clon.querySelector('.card-text');
     let cardImage = clon.querySelector('.card-img-top');
+    let cardLink = clon.querySelector(".secondary")
     cardTitle.textContent = collection
     cardDesc.textContent = details.desc
+    cardLink.setAttribute("href", `gallery.html?collection=${collection}`)
     clon.firstElementChild.setAttribute("name", collection.replaceAll(" ", "-"))
     cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
     // getFile(details.images[0])
