@@ -109,6 +109,32 @@
 
     <script src="web/admin.js" type="module"></script>
 
+    <script type="module">
+        import * as gly from './web/gallery.js';
+        import * as fb from './web/firebase.js'
+        function getParameterByName(name, url = window.location.href) {
+            name = name.replace(/[\[\]]/g, '\\$&');
+            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+
+
+        var collection = getParameterByName('collection');
+        console.log(collection)
+
+        document.getElementById("submit-btn").addEventListener("click", async () => {
+            await fb.startAuth()
+            await gly.initalisePanel(1, 10, gallery, collection)
+        })
+        document.getElementById("loadMore").addEventListener('click', function () {
+            gly.loadProjects(projects, 20, gallery, collection);
+        });
+
+    </script>
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>

@@ -69,10 +69,12 @@
             if (!results[2]) return '';
             return decodeURIComponent(results[2].replace(/\+/g, ' '));
         }
+        
 
 
         var collection = getParameterByName('collection');
         console.log(collection)
+        
         gly.initalisePanel(1, 10, document.getElementById('gallery'), collection)
         document.getElementById("loadMore").addEventListener('click', function () {
             gly.loadProjects(projects, 20, gallery, collection);

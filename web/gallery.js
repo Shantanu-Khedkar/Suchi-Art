@@ -39,7 +39,7 @@ export async function initalisePanel(p, n, g, t) { // p = projects/collections, 
 export async function loadProjects(projects, length, gallery, tag) {
     console.log(tag)
     Object.keys(projects).forEach((project) => {
-        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0 && projects[project].collections.includes(tag)) {
+        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0 && (!Boolean(tag) || projects[project].collections.includes(tag))) {
             listProject(project, projects[project], gallery)
             length--;
         }

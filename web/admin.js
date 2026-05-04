@@ -25,14 +25,6 @@ Object.defineProperty(window, 'collections', {
     configurable: true
 });
 
-document.getElementById("submit-btn").addEventListener("click", async ()=>{
-    await fb.startAuth()
-    await gly.initalisePanel(1, 20, gallery)
-})
-document.getElementById("loadMore").addEventListener('click', function () {
-    gly.loadProjects(projects, 20, gallery);
-});
-
 
 // Jquery For Modal
 $(document).ready(function () {
