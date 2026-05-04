@@ -26,7 +26,8 @@
             <input placeholder="Password" type="text"><br><br>
             <button class="btn-primary btn" id="submit-btn">Authorize Firebase</button>
             <br><br>
-            <button class="btn-secondary btn" id="authorize_button" onclick="handleAuthClick()">Authorize</button>
+            <button class="btn-secondary btn" style="display: none;" id="authorize_button"
+                onclick="handleAuthClick()">Authorize</button>
             <br><br>
             <button class="btn-danger btn" id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
         </div>
@@ -49,22 +50,37 @@
         aria-hidden="true" data-source="">
         <div class="modal-dialog modal-dialog-centered " role="document">
             <div class="modal-content row align-items-center">
-                <div class="card rounded">
-                    <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
-                    <div class="card-body">
-                        <h5 class="card-title" contenteditable="true">Card title</h5>
-                        <p class="card-text" contenteditable="true">Some quick example text to build on the card title
-                            and make up the bulk of
-                            the card's content.</p>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="uploadChanges">Save changes</button>
-                    </div>
+                <div class="card-wrapper"></div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="uploadChanges" data-dismiss="modal">Save
+                        changes</button>
                 </div>
-
             </div>
+
         </div>
     </div>
 
+    <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Confirm Delete?</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="confirm-name"></span>
+                    <p>Warning! Deleting is currently irreversible.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="deleteProject" data-dismiss="modal" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <template>
@@ -72,415 +88,26 @@
             <div class="card rounded">
                 <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
                 <div class="card-body">
+                    <span class="badge badge-custom">Primary</span>
+                    <hr>
                     <h5 class="card-title">Card title</h5>
                     <p class="card-text">Some quick example text to build on the card title and make up the bulk of
                         the card's content.</p>
-                    <a href="#" class="container button rounded text-light" data-toggle="modal"
-                        data-target="#editModal">Edit</a>
+                    <a href="#" class="container button rounded text-light" style="background-color: rgb(44, 119, 151);"
+                        data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="#" class="container button btn-danger rounded text-light" data-toggle="modal"
+                        data-target="#deleteModal"><i class="fa-solid fa-trash"></i></a>
                 </div>
             </div>
         </div>
+
     </template>
 
-    <script>
-
-        /* exported gapiLoaded */
-        /* exported gisLoaded */
-        /* exported handleAuthClick */
-        /* exported handleSignoutClick */
-
-        // TODO(developer): Set to client ID from the Developer Console
-        const CLIENT_ID = '188405063636-1rpla1oofgf4fcgv4ceb0scnoelrnb6m.apps.googleusercontent.com';
-
-        // Discovery doc URL for APIs used by the quickstart
-        const DISCOVERY_DOC = 'https://www.googleapis.com/discovery/v1/apis/drive/v3/rest';
-
-        // Authorization scopes required by the API; multiple scopes can be
-        // included, separated by spaces.
-        const SCOPES = 'https://www.googleapis.com/auth/drive.metadata.readonly';
-
-        let tokenClient;
-        let gapiInited = false;
-        let gisInited = false;
-
-        document.getElementById('authorize_button').style.visibility = 'hidden';
-        document.getElementById('signout_button').style.visibility = 'hidden';
-
-        /**
-         * Callback after api.js is loaded.
-         */
-        function gapiLoaded() {
-            gapi.load('client', initializeGapiClient);
-        }
-
-        /**
-         * Callback after the API client is loaded. Loads the
-         * discovery doc to initialize the API.
-         */
-        async function initializeGapiClient() {
-            await gapi.client.init({
-                discoveryDocs: [DISCOVERY_DOC],
-            });
-            gapiInited = true;
-            maybeEnableButtons();
-        }
-
-        /**
-         * Callback after Google Identity Services are loaded.
-         */
-        function gisLoaded() {
-            tokenClient = google.accounts.oauth2.initTokenClient({
-                client_id: CLIENT_ID,
-                scope: SCOPES,
-                callback: '', // defined later
-            });
-            gisInited = true;
-            maybeEnableButtons();
-        }
-
-        /**
-         * Enables user interaction after all libraries are loaded.
-         */
-        function maybeEnableButtons() {
-            if (gapiInited && gisInited) {
-                document.getElementById('authorize_button').style.visibility = 'visible';
-            }
-        }
-
-        /**
-         *  Sign in the user upon button click.
-         */
-        function handleAuthClick() {
-            tokenClient.callback = async (resp) => {
-                if (resp.error !== undefined) {
-                    throw (resp);
-                }
-                document.getElementById('signout_button').style.visibility = 'visible';
-                document.getElementById('authorize_button').innerText = 'Refresh';
-                console.log("Drive Auth Success")
-
-            };
-
-            if (gapi.client.getToken() === null) {
-                // Prompt the user to select a Google Account and ask for consent to share their data
-                // when establishing a new session.
-                tokenClient.requestAccessToken({ prompt: 'consent' });
-            } else {
-                // Skip display of account chooser and consent dialog for an existing session.
-                tokenClient.requestAccessToken({ prompt: '' });
-            }
-        }
-
-        /**
-         *  Sign out the user upon button click.
-         */
-        function handleSignoutClick() {
-            const token = gapi.client.getToken();
-            if (token !== null) {
-                google.accounts.oauth2.revoke(token.access_token);
-                gapi.client.setToken('');
-                document.getElementById('content').innerText = '';
-                document.getElementById('authorize_button').innerText = 'Authorize';
-                document.getElementById('signout_button').style.visibility = 'hidden';
-            }
-        }
-
-        /**
-         * Print metadata for first 10 files.
-         */
-        async function listFiles() {
-            let response;
-            try {
-                response = await gapi.client.drive.files.list({
-                    'pageSize': 10,
-                    'fields': 'files(id, name)',
-                });
-            } catch (err) {
-                document.getElementById('content').innerText = err.message;
-                return;
-            }
-            const files = response.result.files;
-            if (!files || files.length == 0) {
-                document.getElementById('content').innerText = 'No files found.';
-                return;
-            }
-            // Flatten to string to display
-            const output = files.reduce(
-                (str, file) => `${str}${file.name} (${file.id})\n`,
-                'Files:\n');
-            document.getElementById('content').innerText = output;
-        }
 
 
+    <script src="web/drive.js"></script>
 
-        async function listAllFiles(parent) {
-            let response;
-            try {
-                response = await gapi.client.drive.files.list({
-                    'q': "trashed = false",
-                    'pageSize': 1000,
-
-                });
-            } catch (err) {
-                document.getElementById('content').innerText = err.message;
-                return;
-            }
-            const files = response.result.files;
-            if (!files || files.length == 0) {
-                document.getElementById('content').innerText = 'No files found.';
-                return;
-            } else {
-                return files
-            }
-
-        }
-
-
-    </script>
-
-    <script type="module">
-
-        // Import the functions you need from the SDKs you need
-
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
-        import { getDatabase, ref, set, get, child, remove} from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
-        import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
-
-
-        // Firebase configuration
-
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyAcTwe6bEPnhd1EBBAP99HGRJNFSFXNoQ4", // To anyone reading the code: Please do not get excited, the api key is not designed to be a secret (source: Firebase Docs) and there are additional checks like email and password provided by Firebase Security Rules...
-            authDomain: "suchi-art.firebaseapp.com",
-            databaseURL: "https://suchi-art-default-rtdb.asia-southeast1.firebasedatabase.app",
-            projectId: "suchi-art",
-            storageBucket: "suchi-art.firebasestorage.app",
-            messagingSenderId: "188405063636",
-            appId: "1:188405063636:web:91bf35c72e45ef8b250041"
-        };
-
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-        const auth = getAuth(app);
-
-
-        /*
-        function writeUserData(uid, userId, name, email) {
-            console.log(uid)
-            set(ref(database, 'users/' + userId), {
-
-                username: name,
-                email: email
-            }).then(() => {
-                console.log('User data written successfully.');
-            }).catch((error) => {
-                console.error('Error writing user data: ', error);
-            });
-        }*/
-        function createFileIndex(f) {
-            var name = f.name.split(".")[0];
-            set(ref(database, 'images/' + name), {
-                id: f.id,
-                description: "",
-                tags: "",
-                date: ""
-            }).then(() => {
-                console.log(`${name} Index Created`);
-            }).catch((error) => {
-                console.error('Error Creating File Index: ', error);
-            });
-        }
-        function createTagIndex(f) {
-            var name = f.name.split(".")[0];
-            set(ref(database, 'tags/' + f.name), {
-                id: f.id,
-                description: "",
-                date: ""
-            }).then(() => {
-                console.log(`${name} Index Created`);
-            }).catch((error) => {
-                console.error('Error Creating Tag Index: ', error);
-            });
-        }
-        function pushItems(path, items) {
-            set(ref(database, path), items).then(() => {
-                console.log(`${path} Nodes Created`);
-            }).catch((error) => {
-                console.error('Error Creating Nodes: ', error);
-            });
-        }
-        function updateItems(oldPath, path, items) {
-            if (oldPath == path){
-                pushItems(path, items)
-            }else{
-                pushItems(path, items)
-                remove(ref(database, oldPath));
-            }
-        }
-        function pullItems(path) {
-            return new Promise((resolve, reject) => {
-                get(child(ref(database), `${path}`)).then((snapshot) => {
-                    if (snapshot.exists()) {
-                        console.log(snapshot.val());
-                        resolve(snapshot.val());
-                    } else {
-                        console.log("No data available");
-                        reject("No Data")
-                    }
-                }).catch((error) => {
-                    console.error(error);
-                    reject(error)
-                });
-            })
-        }
-
-        function startAuth(userEmail, userPassword) {
-            userEmail = document.getElementById('login-form').children[0].value
-            userPassword = document.getElementById('login-form').children[2].value
-            console.log(userEmail, userPassword)
-            signInWithEmailAndPassword(auth, userEmail, userPassword)
-                .then((userCredential) => {
-                    // Signed in
-                    const user = userCredential.user;
-                    console.log("User signed in:", user.uid);
-                    enterAdminPanel(user.uid)
-
-                    //driveUpdate() // Initialise rtdb with skeleton drive data
-                    //loadProjects()
-                    initalisePanel()
-                })
-                .catch((error) => {
-                    const errorCode = error.code;
-                    const errorMessage = error.message;
-                    console.error("Error signing in:", errorCode, errorMessage);
-                });
-        }
-        function enterAdminPanel(uid) {
-            console.log("Admin")
-            //writeUserData(uid, 0, "test", "test@test.com")
-        }
-        async function driveUpdate() {
-            var files = await listAllFiles("root")
-            var count = 0
-            var prjcts = {}
-            var images = {}
-            var collections = {}
-            console.log(files)
-            files.forEach((f) => {
-                var name = f.name.split(".")[0];
-                if (f.mimeType.includes("image")) {
-                    prjcts[name] = { "images": [f.id], "desc": "", "collections": [] }
-                    images[name] = { "id": f.id }
-                } else if (f.mimeType == "application/vnd.google-apps.folder") {
-                    collections[name] = { "images": ["NO_IMAGE"], "id": f.id, "desc": "" }
-                }
-            })
-            console.log(images, collections)
-            pushItems("projects", prjcts)
-            pushItems("images", images)
-            pushItems("collections", collections)
-
-        }
-        const gallery = document.getElementById('gallery')
-        let projects = {};
-        let images = {}
-        let collections = {};
-        async function initalisePanel() {
-            //await driveUpdate()
-            projects = await pullItems("/projects")
-            collections = await pullItems("/collections")
-            images = await pullItems("/images")
-            console.log(projects, collections)
-
-            await loadCollections(collections, 20, gallery);
-            //await loadProjects(projects, 20, gallery);
-        }
-
-        async function loadProjects(projects, length, gallery) {
-            console.log(gallery)
-            Object.keys(projects).forEach((project) => {
-                if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0) {
-                    listCollection(project, projects[project], gallery)
-                    length--;
-                }
-            })
-        }
-        async function loadCollections(collections, length, gallery) {
-            Object.keys(collections).forEach((collection) => {
-                if (gallery.querySelectorAll(`[name="${collection.replaceAll(" ", "-")}"]`).length == 0 && length > 0) {
-                    listCollection(collection, collections[collection], gallery)
-                    length--;
-                }
-            })
-        }
-        function listProject(project, details, gallery) {
-            let temp = document.getElementsByTagName("template")[0];
-            let clon = document.importNode(temp.content, true);
-
-            let cardTitle = clon.querySelector('.card-title');
-            let cardDesc = clon.querySelector('.card-text');
-            let cardImage = clon.querySelector('.card-img-top');
-            cardTitle.textContent = project
-            cardDesc.textContent = details.desc
-            clon.firstElementChild.name = project.replace(" ", "-")
-            cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
-            // getFile(details.images[0])
-            console.log(clon)
-            gallery.appendChild(clon);
-        }
-        function listCollection(collection, details, gallery) {
-            let temp = document.getElementsByTagName("template")[0];
-            let clon = document.importNode(temp.content, true);
-
-            let cardTitle = clon.querySelector('.card-title');
-            let cardDesc = clon.querySelector('.card-text');
-            let cardImage = clon.querySelector('.card-img-top');
-            cardTitle.textContent = collection
-            cardDesc.textContent = details.desc
-            clon.firstElementChild.name = collection.replace(" ", "-")
-            cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
-            // getFile(details.images[0])
-            console.log(clon)
-            gallery.appendChild(clon);
-        }
-        document.getElementById("submit-btn").addEventListener("click", startAuth)
-        document.getElementById("loadMore").addEventListener('click', function () {
-            loadProjects(projects, 20, gallery);
-        });
-        $(document).ready(function () {
-            $('#editModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget) // Button that triggered the modal
-                var title = button.siblings()[0].innerText
-                var text = button.siblings()[1].innerText
-                var card = button.parent().parent().parent()
-                var oldPath = card[0].name.replaceAll("-", " ")// Extract info from data-* attributes
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                var modal = $(this)
-                modal.data('source', oldPath);
-                console.log($(this))
-                modal.find('.card-title').text(title)
-                modal.find('.card-text').text(text)
-                modal.find('.card-img-top')[0].src = button.parent().siblings()[0].src
-            })
-            $('#uploadChanges').on('click', function (event) {
-                var button = $(this) // Button that triggered the modal
-                console.log(button)
-                var title = button.siblings()[0].innerText
-                var text = button.siblings()[1].innerText
-                console.log(button) // Extract info from data-* attributes
-                var modal = button.parent().parent().parent().parent().parent()
-                var oldPath = modal.data('source')
-                // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
-                // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
-                updateItems(`/projects/${oldPath}`, `/projects/${title}`, {"desc":text, images:["1xpiQvduZcWkt2SU2jIS4uwmQDm9BoauO"]})
-
-            })
-        });
-    </script>
+    <script src="web/admin.js" type="module"></script>
 
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
