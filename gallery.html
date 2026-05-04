@@ -61,21 +61,29 @@
     <script type="module">
         import * as gly from './web/gallery.js';
 
-        function getParameterByName(name, url = window.location.href) {
-            name = name.replace(/[\[\]]/g, '\\$&');
-            var regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
-                results = regex.exec(url);
-            if (!results) return null;
-            if (!results[2]) return '';
-            return decodeURIComponent(results[2].replace(/\+/g, ' '));
-        }
-        
-
-
-        var collection = getParameterByName('collection');
+        const params = new URLSearchParams(window.location.search);
+        var collection = params.getAll('c');
         console.log(collection)
-        
-        gly.initalisePanel(1, 10, document.getElementById('gallery'), collection)
+        if (collection.includes("Folk paintings")) {
+            collection.pop("Fold paintings")
+            collection = collection.concat(["Madubani", "Lippan", "Pichwai", "Warli"])
+            var qs = ""
+            collection.forEach((e) => {
+                qs = `${qs}c=${e}&`
+            })
+            window.location = window.location.origin + window.location.pathname + "?" + qs
+        }
+
+        if (collection.includes("Crafts")) {
+            collection.pop("Crafts")
+            collection = collection.concat(["Decoupage", "Bottle Art", "Name plates", "Miscellaneous"])
+            var qs = ""
+            collection.forEach((e) => {
+                qs = `${qs}c=${e}&`
+            })
+            window.location = window.location.origin + window.location.pathname + "?" + qs
+        }
+        gly.initialisePanel(1, 10, document.getElementById('gallery'), collection)
         document.getElementById("loadMore").addEventListener('click', function () {
             gly.loadProjects(projects, 20, gallery, collection);
         });

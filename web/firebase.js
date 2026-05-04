@@ -163,6 +163,7 @@ export async function indexCollections(projects, collections) {
     Object.keys(projects).forEach((p) => {
         getParents(projects[p].images[0]).then((parents) => {
             var c = Object.keys(collections).find(key => collections[key].id === parents[0]);
+            console.log(parents)
             pushItems(`/projects/${p}/collections`, [c])
         })
     })

@@ -60,7 +60,7 @@
             <div class="rounded col-sm mb-5 text-center text-middle greeting">
                 <h1><b>Welcome!</b></h1>
                 <hr>
-                <h3>Explore The Beautiful World of Exclusive Painings, Art & Craft</h3>
+                <h3>Explore The Beautiful World of Exclusive Paintings, Art & Craft</h3>
                 <hr>
                 <a href="#about-section" class="container button rounded">
                     <h5 class="text-light">Learn More</h5>
@@ -71,36 +71,54 @@
     <br>
     <div class="container-fluid fs-6" id="about-section">
         <div class="row">
-        <div class="col-lg-6 fs-4">
-        <h1 class="text-center"><b>About</b></h1>
-        <hr>
-        <p>
-            <b>Welcome to Suchi’s Art Creations</b>, where tradition meets creativity and every piece of art tells a timeless
-            story.</p>
-        <p>
-            With over 20 years of experience in the world of fine arts and crafts, the proprietor of Suchi’s Art
-            Creations,
-            Suchi Thapar has dedicated her journey to preserving and celebrating the beauty of traditional Indian art
-            forms.
-            Having learned the intricate and prestigious art of Tanjore painting in Chennai—the very heart of this
-            classical
-            art form—she brings authenticity, expertise, and passion into every creation.
-        </p>
-        <p>
-        Specializing in exquisite Tanjore paintings, along with a wide range of folk paintings and handcrafted
-        creations, each artwork is thoughtfully designed with attention to detail, elegance, and cultural richness. From
-        custom-made Tanjore paintings created on order to unique artistic pieces that reflect personal stories and
-        traditions, every work is crafted with devotion and perfection.</p>
-        <p>
-        We invite you to explore our collection and experience the charm of handcrafted excellence, where every
-        brushstroke carries passion, tradition, and grace.</p>
+            <div class="col-lg-6 fs-4">
+                <h1 class="text-center"><b>About</b></h1>
+                <hr>
+                <p>
+                    <b>Welcome to Suchi’s Art Creations</b>, where tradition meets creativity and every piece of art
+                    tells a timeless
+                    story.
+                </p>
+                <p>
+                    With over <b>20 years of experience</b> in the world of fine arts and crafts, the proprietor of
+                    Suchi’s Art
+                    Creations,
+                    <b>Suchi Thapar</b> has dedicated her journey to preserving and celebrating the beauty of
+                    traditional
+                    Indian art
+                    forms.
+                </p>
+                <p>
+                    Having learned the intricate and prestigious art of <b>Tanjore</b> painting in Chennai, the very
+                    heart of
+                    this
+                    classical
+                    art form, she brings <b>authenticity, expertise, and passion</b> into every creation.
+                </p>
+                <p>
+                    Known for creativity, originality, and exceptional craftsmanship, Suchi’s Art Creations has been
+                    serving art lovers and collectors for many years, building a strong reputation for quality and
+                    trust. Clients consistently share glowing reviews and heartfelt appreciation for the beauty, finish,
+                    and soulfulness of each creation.</p>
+                    
+                <p>From
+                    custom-made Tanjore paintings created on order to unique artistic pieces that reflect personal
+                    stories, every work is crafted with devotion and perfection.
+                    Feel free to explore our large collection and experience the charm of handcrafted excellence, where
+                    every
+                    brushstroke carries passion and grace.</p>
 
-    </div>
-    <div class="col-lg-6 text-center image-container">
-        <div class="about-image rounded"></div>
-    </div>
-    </div>
-    <br>
+                <p>
+                    <b>We pleased to announce that we are currently accepting a diverse range of orders. We eagerly look
+                        forward to collaborating with you to bring your artistic visions to life. </b>
+                </p>
+
+            </div>
+            <div class="col-lg-6 text-center image-container">
+                <div class="about-image rounded"></div>
+            </div>
+        </div>
+        <br>
     </div>
     <div class="container-fluid ">
 
@@ -114,9 +132,11 @@
             <h1><b>Contact</b></h1>
             <hr>
             <p class="fs-4">Get in touch to make your art dreams come true!</p>
-            <i class="fa-solid fa-phone"></i> Call: 9890000000
             <br>
-            <i class="fa-solid fa-envelope"></i> Mail: email@domain.com
+            <i class="fa-solid fa-envelope"></i> Mail: <a
+                href="mailto:suchi.thapar.14@gmail.com">suchi.thapar.14@gmail.com</a>
+
+
         </div>
 
 
@@ -128,7 +148,8 @@
                         <h5 class="card-title">Card title</h5>
                         <p class="card-text">Some quick example text to build on the card title and make up the bulk of
                             the card's content.</p>
-                        <a href="#" class="container button rounded secondary">Explore <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                        <a href="#" class="container button rounded secondary">Explore <i
+                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
                     </div>
                 </div>
             </div>
@@ -136,8 +157,40 @@
         </template>
         <script src="web/client.js" type="module"></script>
         <script type="module">
+            import * as fb from './web/firebase.js';
+            const gallery = document.getElementById('gallery')
+
+            Object.defineProperty(window, 'projects', {
+                get: function () {
+                    return fb.getProjects();
+                },
+                configurable: true
+            });
+
+            Object.defineProperty(window, 'images', {
+                get: function () {
+                    return fb.getImages();
+                },
+                configurable: true
+            });
+
+            Object.defineProperty(window, 'collections', {
+                get: function () {
+                    return fb.getCollections();
+                },
+                configurable: true
+            });
+
+
+
             import * as gly from './web/gallery.js';
-            gly.initalisePanel(0, 3, document.getElementById('gallery'))
+
+            await gly.initialisePanel(0, 0, document.getElementById('gallery'))
+            console.log(collections)
+            gly.listCollection("Tanjore paintings", collections["Tanjore paintings"], gallery)
+            gly.listCollection("Folk paintings", collections["Folk paintings"], gallery)
+            gly.listCollection("Acrylic paintings", collections["Acrylic paintings"], gallery)
+            gly.listCollection("Ceramics", collections["Ceramics"], gallery)
         </script>
 </body>
 

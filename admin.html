@@ -131,7 +131,7 @@
         document.getElementById("submit-btn").addEventListener("click", async () => {
         
             fb.startAuth().then(()=>{
-                gly.initalisePanel(1, 10, gallery, collection);
+                gly.initialisePanel(1, 10, gallery, collection);
                 document.getElementById("errormsg").innerText = "Signed In"
             }).catch((error)=>{
                 console.log(error)

@@ -24,7 +24,7 @@ Object.defineProperty(window, 'collections', {
 });
 
 //Function To Initialise Gallery and Admin Panel
-export async function initalisePanel(p, n, g, t) { // p = projects/collections, n = number, g = gallery
+export async function initialisePanel(p, n, g, t) { // p = projects/collections, n = number, g = gallery
     await fb.pullData()
     if (p == 1) {
         await loadProjects(projects, n, g, t);
@@ -39,7 +39,7 @@ export async function initalisePanel(p, n, g, t) { // p = projects/collections, 
 export async function loadProjects(projects, length, gallery, tag) {
     console.log(tag)
     Object.keys(projects).forEach((project) => {
-        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0 && (!Boolean(tag) || projects[project].collections.includes(tag))) {
+        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0 && (tag.length==0 ||  projects[project].collections.some(elem => tag.includes(elem)))) {
             listProject(project, projects[project], gallery)
             length--;
         }
@@ -84,7 +84,7 @@ export function listCollection(collection, details, gallery) {
     let cardLink = clon.querySelector(".secondary")
     cardTitle.textContent = collection
     cardDesc.textContent = details.desc
-    cardLink.setAttribute("href", `gallery.html?collection=${collection}`)
+    cardLink.setAttribute("href", `gallery.html?c=${collection}`)
     clon.firstElementChild.setAttribute("name", collection.replaceAll(" ", "-"))
     cardImage.src = `https://lh3.googleusercontent.com/d/${details.images[0]}=w500?authuser=0`
     // getFile(details.images[0])
