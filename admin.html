@@ -28,8 +28,8 @@
             <br><br>
             <button class="btn-primary btn" id="submit-btn">Authorize Firebase</button>
             <br><br>
-            <button class="btn-secondary btn" style="display: none;" id="authorize_button"
-                onclick="handleAuthClick()">Authorize</button>
+            <button class="btn-secondary btn" id="authorize_button"
+                onclick="handleAuthClick()" style="display: none;">Authorize</button>
             <br><br>
             <button class="btn-danger btn" id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
         </div>
@@ -145,6 +145,7 @@
         });
 
     </script>
+    <!--<script src="./web/drive.js"></script>-->
     <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
     <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
 </body>

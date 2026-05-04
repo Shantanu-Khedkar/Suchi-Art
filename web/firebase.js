@@ -152,9 +152,9 @@ export async function driveUpdate() {
         }
     })
     console.log(images, collections)
-    //pushItems("projects", prjcts)
+    pushItems("projects", prjcts)
     pushItems("images", images)
-    //pushItems("collections", collections)
+    pushItems("collections", collections)
 
 }
 

@@ -95,6 +95,8 @@ $(document).ready(function () {
         var oldPath = modal.data('source')
         console.log(modal)
         fb.removeItems(`/projects/${oldPath}`)
+        gallery.querySelector(`[name="${oldPath.replaceAll(" ", "-")}"`).remove()
+        fb.pullData()
 
     })
 
