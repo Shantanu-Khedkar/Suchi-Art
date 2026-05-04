@@ -10,14 +10,14 @@ let projects = {};
 let images = {};
 let collections = {};
 
-export function getProjects(){
-return projects
+export function getProjects() {
+    return projects
 }
-export function getImages(){
-return images
+export function getImages() {
+    return images
 }
-export function getCollections(){
-return collections
+export function getCollections() {
+    return collections
 }
 
 const firebaseConfig = {
@@ -122,24 +122,17 @@ export async function pullData() {
     //console.log(projects, collections);
 }
 
-export function startAuth(userEmail, userPassword) {
+export async function startAuth(userEmail, userPassword) {
     userEmail = document.getElementById('login-form').children[0].value
     userPassword = document.getElementById('login-form').children[2].value
     console.log(userEmail, userPassword)
-    signInWithEmailAndPassword(auth, userEmail, userPassword)
-        .then((userCredential) => {
-            // Signed in
-            const user = userCredential.user;
-            console.log("User signed in:", user.uid);
-
-            //driveUpdate() // Initialise rtdb with skeleton drive data
-            //loadProjects()
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.error("Error signing in:", errorCode, errorMessage);
-        });
+    try {
+        const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
+        console.log("User signed in:", userCredential.user.uid);
+        return userCredential;
+    } catch (err) {
+        throw new Error('auth failed');
+    }
 }
 // One Time Function To Create Skeleton Firebase RTDB
 export async function driveUpdate() {

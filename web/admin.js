@@ -55,7 +55,8 @@ $(document).ready(function () {
         console.log(button)
         let card = button.parent().parent()[0].querySelector(".card")
 
-        var title = card.querySelector(".card-title").innerText
+        var title = card.querySelector(".card-title").innerText.replaceAll("-", " ")
+        card.querySelector(".card-title").innerText = title;
         var text = card.querySelector(".card-text").innerText
         var modal = button.parent().parent().parent().parent().parent()
         var oldPath = card.getAttribute("data-source")

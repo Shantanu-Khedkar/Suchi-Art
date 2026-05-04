@@ -23,7 +23,9 @@
         <hr>
         <div action="#" id="login-form">
             <input placeholder="Email" type="text"><br>
-            <input placeholder="Password" type="text"><br><br>
+            <input placeholder="Password" type="text">
+            <p id="errormsg"></p>
+            <br><br>
             <button class="btn-primary btn" id="submit-btn">Authorize Firebase</button>
             <br><br>
             <button class="btn-secondary btn" style="display: none;" id="authorize_button"
@@ -127,8 +129,16 @@
         console.log(collection)
 
         document.getElementById("submit-btn").addEventListener("click", async () => {
-            await fb.startAuth()
-            await gly.initalisePanel(1, 10, gallery, collection)
+        
+            fb.startAuth().then(()=>{
+                gly.initalisePanel(1, 10, gallery, collection);
+                document.getElementById("errormsg").innerText = "Signed In"
+            }).catch((error)=>{
+                console.log(error)
+                document.getElementById("errormsg").innerText = "Invalid Credentials"
+            });
+        
+
         })
         document.getElementById("loadMore").addEventListener('click', function () {
             gly.loadProjects(projects, 20, gallery, collection);
