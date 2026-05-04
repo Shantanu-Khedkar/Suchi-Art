@@ -41,6 +41,7 @@ $(document).ready(function () {
         Array.from(cardClone.getElementsByTagName("a")).forEach(btn => { btn.style.display = "none"; });
         cardClone.querySelector(".card-title").setAttribute("contenteditable", "true")
         cardClone.querySelector(".card-text").setAttribute("contenteditable", "true")
+        
         var oldPath = card.parent()[0].getAttribute("name").replaceAll("-", " ")
         cardClone.setAttribute("data-source", oldPath)
 

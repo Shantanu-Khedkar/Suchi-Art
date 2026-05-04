@@ -69,7 +69,7 @@ export function listProject(project, details, gallery) {
     cardTitle.textContent = project
     cardDesc.textContent = details.desc
     clon.firstElementChild.setAttribute("name", project.replaceAll(" ", "-"))
-    cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
+    cardImage.src = `https://lh3.googleusercontent.com/d/${details.images[0]}=w500?authuser=0`
     // getFile(details.images[0])
     gallery.appendChild(clon);
 }
@@ -86,7 +86,7 @@ export function listCollection(collection, details, gallery) {
     cardDesc.textContent = details.desc
     cardLink.setAttribute("href", `gallery.html?collection=${collection}`)
     clon.firstElementChild.setAttribute("name", collection.replaceAll(" ", "-"))
-    cardImage.src = `https://drive.google.com/thumbnail?authuser=0&id=${details.images[0]}`
+    cardImage.src = `https://lh3.googleusercontent.com/d/${details.images[0]}=w500?authuser=0`
     // getFile(details.images[0])
     //console.log(clon)
     gallery.appendChild(clon);
