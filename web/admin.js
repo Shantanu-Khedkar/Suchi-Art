@@ -63,7 +63,7 @@ $(document).ready(function () {
         var c = card.querySelector(".badge").innerText
         var item = {
             "desc": text,
-            "images": ["1xpiQvduZcWkt2SU2jIS4uwmQDm9BoauO"],
+            "images": projects[oldPath].images,
             "collections": [c]
         }
         fb.updateItems(`/projects/${oldPath}`, `/projects/${title}`, item)
