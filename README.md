@@ -12,10 +12,11 @@ TODO:
     - Full Backup/Restore
 
 2. Gallery
-    - Nav/Searchbar
-    - Modal Exit Button
-    - Modal Open On Image Click
-    - Carousel Images & Videos
+    - Searchbar
+    - ✅ Nav
+    - ✅ Modal Exit Button
+    - ✅ Modal Open On Image Click
+    - ✅ Carousel Images & Videos
 
 3. Main Page
     - ✅ Add Profile Image 

@@ -50,6 +50,9 @@ $(document).ready(function () {
         var oldPath = card.parent()[0].getAttribute("name").replaceAll("-", " ")
         var p = projects[oldPath] // Project
         var pi = p.images.slice(1)
+        carouselClone.querySelector('.carousel-control-prev').style.display = "block"
+        carouselClone.querySelector('.carousel-control-next').style.display = "block"
+        if(p.video || pi.length!=0){
 
         pi.forEach((i) => {
             let carouselImage = document.getElementById("carouselImage").content.cloneNode(true); // Carousel images
@@ -63,6 +66,10 @@ $(document).ready(function () {
             carouselClone.querySelector('.carousel-inner').appendChild(carouselVideo)
 
         }
+    }else{
+        carouselClone.querySelector('.carousel-control-prev').style.display = "none"
+        carouselClone.querySelector('.carousel-control-next').style.display = "none"
+    }
 
 
 
