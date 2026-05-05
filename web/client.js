@@ -27,23 +27,60 @@ Object.defineProperty(window, 'collections', {
 //gly.initalisePanel()
 // Jquery For Modal
 $(document).ready(function () {
-    $('#viewModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var title = button.siblings()[0].innerText
-        var text = button.siblings()[1].innerText
-        var modal = $(this)
-        var modalContent = modal.find(".card-wrapper")[0]
 
-        var card = button.parent().parent()
-        console.log(modalContent)
-        let cardClone = document.importNode(card[0], true);
-        Array.from(cardClone.getElementsByTagName("a")).forEach(btn => { btn.style.display = "none"; });
+    $('#viewModal').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Image that triggered the modal
+
+        var card = button.parent()
+        var title = card.find(".card-title")
+        var text = card.find(".card-text")
+
+        var modal = $(this)
+        var modalContent = modal.find(".card-wrapper")[0] // Where this mess will finally be appended to
+
+        let cardClone = document.importNode(card[0], true); // Original Card
+
+        let carouselClone = document.getElementById("largeModalCarousel").content.cloneNode(true); // Carousel to replace image
+
+        let originalSrc = cardClone.querySelector(".card-img-top").src // Source of orginal card image
+        carouselClone.querySelector(".card-img-top").src = originalSrc
+        cardClone.querySelector(".card-img-top").remove() // Original image not needed anymore
+
+
         var oldPath = card.parent()[0].getAttribute("name").replaceAll("-", " ")
-        cardClone.setAttribute("data-source", oldPath)
+        var p = projects[oldPath] // Project
+        var pi = p.images.slice(1)
+
+        pi.forEach((i) => {
+            let carouselImage = document.getElementById("carouselImage").content.cloneNode(true); // Carousel images
+            carouselImage.querySelector('.card-img-top').src = `https://lh3.googleusercontent.com/d/${i}=w500?authuser=0`
+            carouselClone.querySelector('.carousel-inner').appendChild(carouselImage)
+        })
+        if (p.video) {
+            var pv = p.video;
+            let carouselVideo = document.getElementById("carouselVideo").content.cloneNode(true); // Carousel video
+            carouselVideo.querySelector('.card-img-top').src = pv
+            carouselClone.querySelector('.carousel-inner').appendChild(carouselVideo)
+
+        }
+
+
+
+
+        cardClone.insertBefore(carouselClone, cardClone.querySelector('.card-body'));
 
         modalContent.innerHTML = "";
         modalContent.appendChild(cardClone)
-
+        $('#carouselControls').on('slid.bs.carousel', function () {
+            try {
+                $(this).find('video')[0].pause()
+                if ($(this).find('video').parent()[0].classList.contains('active')) {
+                    $(this).find('video')[0].play()
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })
 
     })
 
