@@ -32,7 +32,7 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url("../assets/banner-transparent-cleaned.png");
+    background-image: url('https://lh3.googleusercontent.com/d/1-eFdXZslEO0Hv_h_46wAlDqFVVvFFycL=w600?authuser=0');
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -113,7 +113,7 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
 }
 
 .about-image{
-    background-image: url('https://drive.google.com/thumbnail?authuser=0&id=1TEwf9jxW-SccAPIYLo_xNw01eotro85l');
+    background-image: url('https://lh3.googleusercontent.com/d/184uDvZYojbohSAOfN9voW_rZVNxQkz0C=w500?authuser=0');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
