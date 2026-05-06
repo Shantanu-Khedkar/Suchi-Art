@@ -42,8 +42,12 @@ TODO:
     - Create Interface
 
 
-Styling:
+5. Styling:
+    - Hover Effects On Cards
+    - Brush Font / Animation On Hero Section
+    - Scroll Parallax Effects
 
-1. Hover Effects On Cards
-2. Brush Font / Animation On Hero Section
-3. Scroll Parallax Effects
+6. Code Quality:
+    - Adding More Useful Comments
+    - Making Helper Functions To Reduce Monolithic Jquery (admin.js/client.js)
+    - Error Handling

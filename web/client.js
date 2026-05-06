@@ -52,6 +52,7 @@ $(document).ready(function () {
         var pi = p.images.slice(1)
         carouselClone.querySelector('.carousel-control-prev').style.display = "block"
         carouselClone.querySelector('.carousel-control-next').style.display = "block"
+        console.log(pi.video)
         if(p.video || pi.length!=0){
 
         pi.forEach((i) => {
@@ -67,8 +68,9 @@ $(document).ready(function () {
 
         }
     }else{
-        carouselClone.querySelector('.carousel-control-prev').style.display = "none"
-        carouselClone.querySelector('.carousel-control-next').style.display = "none"
+        console.log("test")
+        carouselClone.querySelector('.carousel-control-prev').style = "display: none !important"
+        carouselClone.querySelector('.carousel-control-next').style = "display: none !important"
     }
 
 
