@@ -24,10 +24,13 @@ Object.defineProperty(window, 'collections', {
 });
 
 //Function To Initialise Gallery and Admin Panel
-export async function initialisePanel(p, n, g, t) { // p = projects/collections, n = number, g = gallery
+export async function initialisePanel(p, n, g, t) {
+    console.log("hey") // p = projects/collections, n = number, g = gallery
     await fb.pullData()
     if (p == 1) {
-        await loadProjects(projects, n, g, t);
+        let m = await loadProjects(projects, n, g, t)
+        //console.log(m)
+        return m
     } else {
         await loadCollections(collections, n, g);
     }
@@ -37,13 +40,20 @@ export async function initialisePanel(p, n, g, t) { // p = projects/collections,
 //Functions To Iterate Over Projects/Collections and List
 // replaceAll required as DOM tokens cant have whitespaces
 export async function loadProjects(projects, length, gallery, tag) {
-    console.log(tag)
+    var moreProjects = 0
+    //console.log(tag)
     Object.keys(projects).forEach((project) => {
-        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && length > 0 && (!Boolean(tag)|| tag.length==0 ||  projects[project].collections.some(elem => tag.includes(elem)))) {
-            listProject(project, projects[project], gallery)
-            length--;
+        if (gallery.querySelectorAll(`[name="${project.replaceAll(" ", "-")}"]`).length == 0 && (!Boolean(tag) || tag.length == 0 || projects[project].collections.some(elem => tag.includes(elem)))) {
+            if (length > 0) {
+                listProject(project, projects[project], gallery)
+                length--;
+            } else if (length == 0) {
+                moreProjects++
+            }
         }
     })
+    return moreProjects
+
 }
 export async function loadCollections(collections, length, gallery) {
     Object.keys(collections).forEach((collection) => {
@@ -55,8 +65,8 @@ export async function loadCollections(collections, length, gallery) {
 }
 
 //Functions To Clone Template HTML and Append With Values
-export function listProject(project, details, gallery) {
-    console.log(project, details, projects)
+export function listProject(project, details, gallery, list = 1) {
+    //console.log(project, details, projects)
     let temp = document.getElementsByTagName("template")[0];
     let clon = document.importNode(temp.content, true);
 
@@ -71,7 +81,11 @@ export function listProject(project, details, gallery) {
     clon.firstElementChild.setAttribute("name", project.replaceAll(" ", "-"))
     cardImage.src = `https://lh3.googleusercontent.com/d/${details.images[0]}=w500?authuser=0`
     // getFile(details.images[0])
-    gallery.appendChild(clon);
+    if (list == 1) {
+        gallery.appendChild(clon);
+    } else {
+        return clon
+    }
 }
 export function listCollection(collection, details, gallery) {
     //console.log(projects[project])
@@ -92,15 +106,14 @@ export function listCollection(collection, details, gallery) {
     gallery.appendChild(clon);
 }
 
-export function listUpdated(oldPath, path, updated, gallery) {
+export async function listUpdated(oldPath, path, gallery) {
+    await fb.pullData()
 
 
     var n = oldPath.replaceAll(" ", "-");
     var nn = path.replaceAll(" ", "-");
-    var updatedClone = document.importNode(updated, true);
-    Array.from(updatedClone.getElementsByTagName("a")).forEach(btn => { btn.style.display = "inline"; });
-    updatedClone.querySelector(".card-title").setAttribute("contenteditable", "false")
-    updatedClone.querySelector(".card-text").setAttribute("contenteditable", "false")
+    var updatedClone = listProject(path, projects[path], gallery, 0)
+
     if (oldPath != path) {
         var card = gallery.querySelector(`[name="${n}"`)
         card.innerHTML = ""
@@ -109,8 +122,11 @@ export function listUpdated(oldPath, path, updated, gallery) {
 
     } else {
         var card = gallery.querySelector(`[name="${n}"`)
+        if (card == null){ // Assume New Project
+            gallery.appendChild(updatedClone)
+        }else{
         card.innerHTML = ""
         card.appendChild(updatedClone)
+        }
     }
-    fb.pullData()
 }

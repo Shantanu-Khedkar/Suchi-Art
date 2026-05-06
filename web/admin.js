@@ -26,6 +26,7 @@ Object.defineProperty(window, 'collections', {
 });
 
 
+
 // Jquery For Modal
 $(document).ready(function () {
     $('#editModal').on('show.bs.modal', function (event) {
@@ -33,20 +34,94 @@ $(document).ready(function () {
         var title = button.siblings()[0].innerText
         var text = button.siblings()[1].innerText
         var modal = $(this)
+
+        const options = Array.from(Object.keys(images)).reduce((options, item) => options += `<option value="${item}">${item}</option>`, '');
+        $('.selectpicker').empty().append(options).selectpicker();
+        $('.selectpicker').selectpicker('refresh');
+
+
         var modalContent = modal.find(".card-wrapper")[0]
 
         var card = button.parent().parent()
-        console.log(modalContent)
+
         let cardClone = document.importNode(card[0], true);
+
+        let carouselClone = document.getElementById("largeModalCarousel").content.cloneNode(true);
+
         Array.from(cardClone.getElementsByTagName("a")).forEach(btn => { btn.style.display = "none"; });
+
+        let originalSrc = cardClone.querySelector(".card-img-top").src
+        carouselClone.querySelector(".card-img-top").src = originalSrc
+        cardClone.querySelector(".card-img-top").remove()
+
         cardClone.querySelector(".card-title").setAttribute("contenteditable", "true")
         cardClone.querySelector(".card-text").setAttribute("contenteditable", "true")
-        
+
         var oldPath = card.parent()[0].getAttribute("name").replaceAll("-", " ")
+        if (oldPath == "New Project") {
+            cardClone.querySelector(".badge").setAttribute("contenteditable", "true")
+            var p = {
+                "desc": "New Description",
+                "images": ["12bhZ8uD5Ny-tSKaUH4ljQFECFH7v0Ng2"],
+                "collections": ["We'll See"]
+            }
+        } else {
+            var p = projects[oldPath] // Project
+        }
+        let imagesList = modal.find(".selected-images")[0]
+        imagesList.innerHTML = ""
+
+        p.images.forEach((i) => {
+            let imageName = Object.assign(document.createElement('p'), { textContent: Object.keys(images).find(key => images[key].id === i), onclick: function () { this.remove(); } })
+            if (imageName.innerText != "") {
+                imagesList.appendChild(imageName);
+            }
+            else {
+                console.log("want to rm")
+            }
+
+        })
+        var pi = p.images.slice(1)
+        console.log(carouselClone)
+
+        carouselClone.querySelector('.carousel-control-prev').style.display = "block"
+        carouselClone.querySelector('.carousel-control-next').style.display = "block"
+        if (p.video || pi.length != 0) {
+
+            pi.forEach((i) => {
+                let carouselImage = document.getElementById("carouselImage").content.cloneNode(true); // Carousel images
+                carouselImage.querySelector('.card-img-top').src = `https://lh3.googleusercontent.com/d/${i}=w500?authuser=0`
+                carouselClone.querySelector('.carousel-inner').appendChild(carouselImage)
+            })
+            if (p.video) {
+                var pv = p.video;
+                let carouselVideo = document.getElementById("carouselVideo").content.cloneNode(true); // Carousel video
+                carouselVideo.querySelector('.card-img-top').src = pv
+                carouselClone.querySelector('.carousel-inner').appendChild(carouselVideo)
+
+            }
+        } else {
+            carouselClone.querySelector('.carousel-control-prev').style.display = "none"
+            carouselClone.querySelector('.carousel-control-next').style.display = "none"
+        }
+
+
         cardClone.setAttribute("data-source", oldPath)
+        cardClone.insertBefore(carouselClone, cardClone.querySelector('.card-body'));
 
         modalContent.innerHTML = "";
         modalContent.appendChild(cardClone)
+
+        $('#carouselControls').on('slid.bs.carousel', function () {
+            try {
+                $(this).find('video')[0].pause()
+                if ($(this).find('video').parent()[0].classList.contains('active')) {
+                    $(this).find('video')[0].play()
+                }
+            } catch (error) {
+                console.log(error)
+            }
+        })
 
 
     })
@@ -63,15 +138,20 @@ $(document).ready(function () {
         var oldPath = card.getAttribute("data-source")
         console.log(oldPath)
         var c = card.querySelector(".badge").innerText
+        let imagesList = modal.find(".selected-images")[0]
+        let imgs = []
+        Array.from(imagesList.children).forEach((e) => { imgs.push(images[e.innerText].id) })
         var item = {
             "desc": text,
-            "images": projects[oldPath].images,
+            "images": imgs,
             "collections": [c]
         }
+        console.log(item)
+
         fb.updateItems(`/projects/${oldPath}`, `/projects/${title}`, item)
 
         card.setAttribute("data-source", title)
-        gly.listUpdated(oldPath, title, card, gallery)
+        gly.listUpdated(oldPath, title, gallery)
     })
 
     $('#deleteModal').on('show.bs.modal', function (event) {

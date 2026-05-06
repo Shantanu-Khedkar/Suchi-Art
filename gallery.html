@@ -73,16 +73,23 @@
         <br>
         <h1><b>Gallery</b></h1>
         <br>
-        <p class="fs-4">Browse through an extensive collection of beautiful artwork, where each piece reflects creativity and talent. Here you will find art in all colours, shapes, and sizes, including professional works available on order, as well as fun hobby projects showcasing Suchi's artisic style.</p>
+        <p class="fs-4">Browse through an extensive collection of beautiful artwork, where each piece reflects
+            creativity and talent. Here you will find art in all colours, shapes, and sizes, including professional
+            works available on order, as well as fun hobby projects showcasing Suchi's artisic style.</p>
         <br>
     </div>
     <br>
     <br>
-    <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center;">
+    <div class="container-fluid galleryDesc text-center" style="display: none;">
+        <h2></h2>
+        <p class="fs-4"></p>
+        <br>
+    </div>
+    <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <div class="row justify-content-center gallery mb-5" id="gallery">
 
         </div>
-        <button class="btn-primary btn" id="loadMore">Load More</button>
+        <button class="button text-dark rounded moreBtn secondary" style="display:none" id="loadMore"><b>Load More</b></button>
     </div>
 
 
@@ -148,12 +155,13 @@
     <script src="web/client.js" type="module"></script>
     <script type="module">
         import * as gly from './web/gallery.js';
+        import * as fb from './web/firebase.js';
 
         const params = new URLSearchParams(window.location.search);
         var collection = params.getAll('c');
         console.log(collection)
         if (collection.includes("Folk paintings")) {
-            collection.pop("Fold paintings")
+            collection.pop("Folk paintings")
             collection = collection.concat(["Madubani", "Lippan", "Pichwai", "Warli"])
             var qs = ""
             collection.forEach((e) => {
@@ -171,9 +179,29 @@
             })
             window.location = window.location.origin + window.location.pathname + "?" + qs
         }
-        gly.initialisePanel(1, 10, document.getElementById('gallery'), collection)
+
+        if (collection.length == 1) {
+            fb.pullData().then(() => {
+                document.querySelector(".galleryDesc").getElementsByTagName("h2")[0].innerText = collection[0]
+                document.querySelector(".galleryDesc").getElementsByTagName("p")[0].innerText = collections[collection[0]].desc
+                document.querySelector(".galleryDesc").style.display = "block"
+            })
+
+        }
+
+        gly.initialisePanel(1, 10, document.getElementById('gallery'), collection).then((m) => {
+            console.log(m)
+            if (m > 0) {
+                
+                document.getElementById("loadMore").style.display = "flex"
+            }
+        })
         document.getElementById("loadMore").addEventListener('click', function () {
-            gly.loadProjects(projects, 20, gallery, collection);
+            gly.loadProjects(projects, 20, gallery, collection).then((m) => {
+                if (!(m > 0)) {
+                    this.style.display = "none"
+                }
+            });
         });
     </script>
 

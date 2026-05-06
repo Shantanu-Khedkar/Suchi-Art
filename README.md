@@ -6,10 +6,22 @@ This website functions as a gallery to some of the most inspiring and breathtaki
 TODO:
 
 1. Admin Panel
-    - Creating Projects
-    - Editing Image Links
-    - Indexing Images
-    - Full Backup/Restore
+    - ✅ Creating Projects
+    - ✅ Editing Image Links
+
+    - Indexing Images 
+        - Uploading Images
+        - ✅ Pulling From Drive
+        - Safely Removing Images
+
+    - ✅ Full Backup/Restore
+    - Format Checking & Sanitizing Project Names In Edit Panel
+
+    - General UX Improvement
+        - Streamlined Auth 
+        - Permission Checks in Code
+        - User Error Messages
+        - Consistent Styling
 
 2. Gallery
     - Searchbar
@@ -17,7 +29,9 @@ TODO:
     - ✅ Modal Exit Button
     - ✅ Modal Open On Image Click
     - ✅ Carousel Images & Videos
-
+    - ✅ Dynamic Load More Button
+    - ✅ Free Aspect Ratio In Modal
+    
 3. Main Page
     - ✅ Add Profile Image 
     - ✅ Use Drive Images For Faster Load Times

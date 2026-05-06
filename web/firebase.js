@@ -77,11 +77,26 @@ export function createTagIndex(f) {
 }
 export function pushItems(path, items) {
     set(ref(database, path), items).then(() => {
-        console.log(`${path} Nodes Created`);
+        console.log(`${path} Nodes Pushed`);
     }).catch((error) => {
         console.error('Error Creating Nodes: ', error);
     });
 }
+
+export function createItems(path, items) {
+    Array.from(Object.keys(items)).forEach((i) => {
+        pullItems(`${path}/${i}`).then((data) => {
+            console.log("ok")
+        }).catch((error) => {
+            if (error == "No Data") {
+                pushItems(`${path}/${i}`, items[i])
+                console.log("New Collection Created")
+            }
+        })
+    })
+
+}
+
 export function updateItems(oldPath, path, items) {
     console.log(oldPath, path, items)
     if (oldPath == path) {
@@ -113,11 +128,21 @@ export function pullItems(path) {
 }
 
 export async function pullData() {
-    //await driveUpdate()
+    try {
+        await driveUpdate()
+    } catch (error) {
+        console.log(error)
+    }
     projects = await pullItems("/projects")
-    console.log(getProjects())
+
     collections = await pullItems("/collections")
-    //await indexCollections(projects, collections)
+
+    try {
+        //await indexCollections(projects, collections)
+    } catch (error) {
+        console.log(error)
+    }
+
     images = await pullItems("/images")
     //console.log(projects, collections);
 }
@@ -125,7 +150,7 @@ export async function pullData() {
 export async function startAuth(userEmail, userPassword) {
     userEmail = document.getElementById('login-form').children[0].value
     userPassword = document.getElementById('login-form').children[2].value
-    console.log(userEmail, userPassword)
+    //console.log(userEmail, userPassword)
     try {
         const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
         console.log("User signed in:", userCredential.user.uid);
@@ -141,7 +166,7 @@ export async function driveUpdate() {
     var prjcts = {}
     var images = {}
     var collections = {}
-    console.log(files)
+    //console.log(files)
     files.forEach((f) => {
         var name = f.name.split(".")[0];
         if (f.mimeType.includes("image")) {
@@ -151,10 +176,10 @@ export async function driveUpdate() {
             collections[name] = { "images": ["NO_IMAGE"], "id": f.id, "desc": "" }
         }
     })
-    console.log(images, collections)
-    pushItems("projects", prjcts)
+    //console.log(images, collections)
+    //pushItems("projects", prjcts)
     pushItems("images", images)
-    pushItems("collections", collections)
+    createItems("collections", collections)
 
 }
 
