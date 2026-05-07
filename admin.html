@@ -29,18 +29,16 @@
         <h1>Firebase Admin</h1>
         <hr>
         <div action="#" id="login-form">
-            <input placeholder="Email" type="text"><br>
-            <input placeholder="Password" type="text">
             <p id="errormsg"></p>
             <br><br>
             <button class="btn-primary btn" id="submit-btn">Authorize Firebase</button>
             <br><br>
-            <button class="btn-secondary btn" id="authorize_button" onclick="handleAuthClick()"
-                style="display: block;">Authorize Google Drive</button>
-            <br><br>
-            <button class="btn-danger btn" id="signout_button" onclick="handleSignoutClick()">Sign Out</button>
-            <br><br>
-            <div class="jumbotron">
+               <!--Add buttons to initiate auth sequence and sign out-->
+
+            <pre id="content" style="white-space: pre-wrap;"></pre>
+        </div>
+
+                    <div class="jumbotron">
                 <button class="btn-primary btn" id="backup-btn">Take Backup</button>
                 <br><br>
 
@@ -52,11 +50,6 @@
 
 
             </div>
-            <br>
-
-            <!--Add buttons to initiate auth sequence and sign out-->
-
-            <pre id="content" style="white-space: pre-wrap;"></pre>
     </center>
     <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center;">
         <div class="row justify-content-center gallery mb-5" id="newProjectSection">
@@ -180,7 +173,6 @@
         </div>
     </template>
 
-    <script src="web/drive.js"></script>
 
     <script src="web/admin.js" type="module"></script>
 
@@ -213,7 +205,7 @@
 
 
         document.getElementById("submit-btn").addEventListener("click", async () => {
-
+            console.log("man")
             fb.startAuth().then(() => {
                 gly.initialisePanel(1, 10, gallery, collection);
                 document.getElementById("errormsg").innerText = "Signed In"
@@ -263,9 +255,11 @@
         })
 
     </script>
-    <script src="./web/drive.js"></script>
-    <script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>
-    <script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>
+    <!--<script src="./web/tdrive.js"></script>-->
+    <!--<script async defer src="https://apis.google.com/js/api.js" onload="gapiLoaded()"></script>-->
+    <!--<script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>-->
+    <!--<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>-->
+    <!--<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>-->
 </body>
 
 </html>

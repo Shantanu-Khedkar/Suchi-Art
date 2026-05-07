@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<!--
+Thanks @jamestalmage https://gist.github.com/jamestalmage/2d8d1d5c42157caf349e This code was adapted from the gist and works flawlessly. Got me started with Google API OAuth Access using FB Auth
+-->
+<head>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
+        import { getDatabase, ref, set, get, child, remove } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
+        import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+        
+        const firebaseConfig = {
+            apiKey: "AIzaSyAcTwe6bEPnhd1EBBAP99HGRJNFSFXNoQ4", 
+            authDomain: "suchi-art.firebaseapp.com",
+            databaseURL: "https://suchi-art-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "suchi-art",
+            storageBucket: "suchi-art.firebasestorage.app",
+            messagingSenderId: "188405063636",
+            appId: "1:188405063636:web:91bf35c72e45ef8b250041"
+        };
+
+
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);
+        const auth = getAuth(app);
+        const provider = new GoogleAuthProvider();
+        provider.addScope('https://www.googleapis.com/auth/drive')
+
+
+        // called when the Google Client API is done loading
+        function handleClientLoad() {
+            // load the drive api
+            gapi.client.load('drive', 'v2', handleDriveLoad);
+        }
+
+        // called when the Google Drive API
+        function handleDriveLoad() {
+            console.log("signingin")
+
+                // If the user is already signed in, skip the Popup and go straight to downloading the file list.
+
+                signInWithPopup(auth, provider)
+                    .then((result) => {
+                        // This gives you a Google Access Token. You can use it to access the Google API.
+                        const credential = GoogleAuthProvider.credentialFromResult(result);
+                        const token = credential.accessToken;
+                        // The signed-in user info.
+                        const user = result.user;
+                        // IdP data available using getAdditionalUserInfo(result)
+                        console.log("signed in?")
+                        handleFirebaseAuthData(null,result)
+
+                    }).catch((error) => {
+                        // Handle Errors here.
+                        const errorCode = error.code;
+                        const errorMessage = error.message;
+                        // The email of the user's account used.
+                        
+                        // The AuthCredential type that was used.
+                        const credential = GoogleAuthProvider.credentialFromError(error);
+                        console.log(error)
+                        // ...
+                    });
+        }
+
+        /**
+         * @param error: contains any error encountered while authenticating. `null` if authentication was successful
+         * @param authData: contains the authentication data returned by Firebase
+         */
+        function handleFirebaseAuthData(error, authData) {
+            if (error) {
+                return console.log("Login Failed!", error);
+            }
+
+            console.log("Authenticated successfully with payload:", authData);
+
+            // reformat the token object for the Google Drive API
+            var tokenObject = {
+                access_token: authData._tokenResponse.oauthAccessToken
+            };
+
+            // set the authentication token
+            gapi.auth.setToken(tokenObject);
+
+            // get all the files
+            retrieveAllFiles();
+        }
+
+        /**
+         * `gapi.client.drive.files.list()` returns paginated results, this will fetch every
+         * page and call `handleFileResults` with every batch.
+         *
+         */
+        function retrieveAllFiles() {
+            var retrievePageOfFiles = function (request) {
+                request.execute(function (resp) {
+                    handleFileResults(resp.items);
+                    var nextPageToken = resp.nextPageToken;
+                    if (nextPageToken) {
+                        request = gapi.client.drive.files.list({
+                            'maxResults': 50,
+                            'pageToken': nextPageToken
+                        });
+                        retrievePageOfFiles(request);
+                    }
+                });
+            };
+            var initialRequest = gapi.client.drive.files.list({ maxResults: 50 });
+            retrievePageOfFiles(initialRequest, []);
+        }
+
+        /**
+         * Takes the list of files from the Google Drive API and adds them to the DOM as clickable links.
+         *
+         * @param result - complete list of the users file, as returned by the Google Drive API
+         */
+        function handleFileResults(result) {
+            console.log('Got Some Files!', result);
+
+            // copy the results to the DOM as clickable links with fancy icons!
+            result.forEach(function (file) {
+                var div = document.createElement('div');
+                var link = document.createElement('a');
+                link.href = file.alternateLink;
+
+                var icon = document.createElement('img');
+                icon.src = file.iconLink;
+
+                var title = document.createElement('span');
+                title.innerHTML = file.title;
+
+                link.appendChild(icon);
+                link.appendChild(title);
+                div.appendChild(link);
+                document.body.appendChild(div);
+            });
+        }
+        document.getElementById("btnload").addEventListener("click", handleClientLoad)
+       
+    </script>
+
+    
+
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+    <button id="btnload" style="display:none">load</button>
+</body>
+<script id="clientscript" onload="document.getElementById('btnload').style.display='block'" type="text/javascript" src="https://apis.google.com/js/client.js"></script>
+
+</html>

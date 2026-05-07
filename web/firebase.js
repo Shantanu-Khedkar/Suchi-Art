@@ -2,7 +2,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-app.js";
 import { getDatabase, ref, set, get, child, remove } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-database.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/12.12.1/firebase-auth.js";
 
 
 // Firebase configuration
@@ -35,7 +35,8 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
-
+const provider = new GoogleAuthProvider();
+provider.addScope('https://www.googleapis.com/auth/drive')
 
 /*
 function writeUserData(uid, userId, name, email) {
@@ -129,7 +130,7 @@ export function pullItems(path) {
 
 export async function pullData() {
     try {
-        await driveUpdate()
+        //await driveUpdate()
     } catch (error) {
         console.log(error)
     }
@@ -148,7 +149,9 @@ export async function pullData() {
 }
 
 export async function startAuth(userEmail, userPassword) {
-    userEmail = document.getElementById('login-form').children[0].value
+
+
+    /*userEmail = document.getElementById('login-form').children[0].value
     userPassword = document.getElementById('login-form').children[2].value
     //console.log(userEmail, userPassword)
     try {
@@ -157,7 +160,30 @@ export async function startAuth(userEmail, userPassword) {
         return userCredential;
     } catch (err) {
         throw new Error('auth failed');
-    }
+    }*/
+
+
+
+    signInWithPopup(auth, provider)
+        .then(async (result) => {
+            // This gives you a Google Access Token. You can use it to access the Google API.
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            // The signed-in user info.
+            const user = result.user;
+            // IdP data available using getAdditionalUserInfo(result)
+            console.log("signed in?")
+  
+            await pullData()
+        }).catch((error) => {
+            // Handle Errors here.
+            const errorCode = error.code;
+            const errorMessage = error.message
+            // The AuthCredential type that was used.
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(error)
+            // ...
+        });
 }
 // One Time Function To Create Skeleton Firebase RTDB
 export async function driveUpdate() {

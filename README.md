@@ -19,6 +19,7 @@ TODO:
 
     - General UX Improvement
         - Streamlined Auth 
+            - ✅ Drive Auth With FB
         - Permission Checks in Code
         - User Error Messages
         - Consistent Styling
