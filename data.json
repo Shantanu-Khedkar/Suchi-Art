@@ -99,7 +99,7 @@
       ]
     },
     "Tanjore paintings": {
-      "desc": "Classical Gold-Foil Paintings of Tamil Nadu",
+      "desc": "Classical Gold Paintings of Tamil Nadu",
       "id": "1Hvlj-X332fiy3Ud1fz4v3SKu8f51oyAe",
       "images": [
         "1xpiQvduZcWkt2SU2jIS4uwmQDm9BoauO"
@@ -832,7 +832,7 @@
         "1TEwf9jxW-SccAPIYLo_xNw01eotro85l"
       ]
     },
-    "Bhandari nameplate": {
+    "Bhandari": {
       "collections": [
         "Name plates"
       ],
@@ -883,19 +883,12 @@
       ],
       "desc": "",
       "images": [
-        "1VJKkcd1WWL8nVkRg09KlEzn8BNE9qpZU"
-      ]
-    },
-    "Book Holder 1": {
-      "collections": [
-        "Miscellaneous"
-      ],
-      "desc": "",
-      "images": [
+        "1VJKkcd1WWL8nVkRg09KlEzn8BNE9qpZU",
         "1YBgJQ68cer4tuPZJlde1NtCiVJ_Zolnf"
       ]
     },
-    "Bookmark1": {
+
+    "Bird Bookmark": {
       "collections": [
         "Madubani"
       ],
@@ -904,7 +897,7 @@
         "1VqWVbmuOOuCWyqmNgiKOpNTvk7k0-z-r"
       ]
     },
-    "Bookmark2": {
+    "Dulhan Bookmark": {
       "collections": [
         "Madubani"
       ],
@@ -1104,13 +1097,16 @@
         "1cNcb3OX4dffLW2asRYrFp58-4lVZQcV8"
       ]
     },
-    "Durga": {
+    "Durga Lakshmi Saraswati": {
       "collections": [
         "Tanjore paintings"
       ],
       "desc": "",
       "images": [
-        "1nkjWokDBePfzWIpPyqugp92eeKWJfq5O"
+        "1nkjWokDBePfzWIpPyqugp92eeKWJfq5O",
+        "1niWMk6HAMzKy0ciYX26pBnapbMU6HPKj",
+        "1Taqu-dcpRYoxYkmiX5qN3I6f5Ml5805v",
+        "1u8zas85KTmfpD0NoAlppJJD0hJaYPF9-"
       ]
     },
     "Durga Decoupage": {
@@ -1222,7 +1218,7 @@
         "1LBqR_n61HYZ5-EehuEvJlu5uOB7crYDN"
       ]
     },
-    "GajLakshmi": {
+    "Gaj Lakshmi": {
       "collections": [
         "Tanjore paintings"
       ],
@@ -1303,15 +1299,7 @@
         "1YbVYjKKAwbKpyQi4n_KaHmncv0EujF50"
       ]
     },
-    "Girl with a bun": {
-      "collections": [
-        "Zentangle"
-      ],
-      "desc": "",
-      "images": [
-        "1nSKQOLaUorW-JsbSSo4ZfnE87sQjjtKG"
-      ]
-    },
+
     "Golden hibiscus": {
       "collections": [
         "Other Works"
@@ -1393,7 +1381,7 @@
         "1b4sqzsLmEUA45XThiEY5GYk3Ft7ZONiQ"
       ]
     },
-    "IMG_1534": {
+    "Shubh Labh": {
       "collections": [
         "Ceramics"
       ],
@@ -1420,7 +1408,7 @@
         "1hjgn3tEDjsS22LUjlzNk9Fmu8Wxa5EVz"
       ]
     },
-    "Kapoors nameplate": {
+    "Kapoors": {
       "collections": [
         "Name plates"
       ],
@@ -1447,7 +1435,7 @@
         "1ax4iGCSiCD9JBVdUvW5u-atGqrlFTR-t"
       ]
     },
-    "Keyhanger1": {
+    "Ganesha Keyhanger": {
       "collections": [
         "Miscellaneous"
       ],
@@ -1456,7 +1444,7 @@
         "1QLzP9VsmtiylZxUHmIRW7urZy1c-LNnN"
       ]
     },
-    "Keyhanger2": {
+    "Stone Keyhanger": {
       "collections": [
         "Miscellaneous"
       ],
@@ -1465,7 +1453,7 @@
         "1W5ti-5g2QsexiyPwYiQvRyBAH89FDQEv"
       ]
     },
-    "Keyhanger3": {
+    "Kaju Katli Keyhanger": {
       "collections": [
         "Miscellaneous"
       ],
@@ -1483,7 +1471,7 @@
         "1JFpARKBRRTZ_NYFtb_I7UW84CTxaeBMl"
       ]
     },
-    "Kitchen 1": {
+    "Suchi's Kitchen": {
       "collections": [
         "Zentangle"
       ],
@@ -1519,15 +1507,7 @@
         "1WnaYfTTs667ISLg7f30jvweZRZj1_UeT"
       ]
     },
-    "Lakshmi": {
-      "collections": [
-        "Tanjore paintings"
-      ],
-      "desc": "",
-      "images": [
-        "1Taqu-dcpRYoxYkmiX5qN3I6f5Ml5805v"
-      ]
-    },
+
     "Leaves bookmark": {
       "collections": [
         "Miscellaneous"
@@ -1600,7 +1580,7 @@
         "1nHeN4rSH5Mzqn3_VfqSGo26eLv50Tds7"
       ]
     },
-    "Mad": {
+    "Ardhanareshwari Madubani": {
       "collections": [
         "Madubani"
       ],
@@ -1609,7 +1589,7 @@
         "1mCfKdqO5t5yyf222KbqxtWR5gq4s8K9C"
       ]
     },
-    "Madh": {
+    "Circles Of Evolution": {
       "collections": [
         "Madubani"
       ],
@@ -1636,7 +1616,7 @@
         "1NNFRhMnux8gMSa-o42xMy9m9ssiyHo4a"
       ]
     },
-    "Man Woman Panel": {
+    "Couple Panel Painting": {
       "collections": [
         "Acrylic paintings"
       ],
@@ -1735,7 +1715,7 @@
         "1CBxiD37lYV15etxCjlMfM_6IuLuQWen7"
       ]
     },
-    "My Balaji": {
+    "Balaji 1": {
       "collections": [
         "Tanjore paintings"
       ],
@@ -1744,7 +1724,7 @@
         "1GanN1-AUVp-0ZRgos59TIbsjz7v9vbNq"
       ]
     },
-    "My Balaji 2": {
+    "Balaji 2": {
       "collections": [
         "Tanjore paintings"
       ],
@@ -1807,15 +1787,6 @@
         "1gWYkYNm_xU3esWfP3PsW67Jg-xRFoYDZ"
       ]
     },
-    "Panchmukhi Devi": {
-      "collections": [
-        "Tanjore paintings"
-      ],
-      "desc": "",
-      "images": [
-        "1u8zas85KTmfpD0NoAlppJJD0hJaYPF9-"
-      ]
-    },
     "Panchmukhi Ganesha": {
       "collections": [
         "Tanjore paintings"
@@ -1852,7 +1823,7 @@
         "1jv65KLBp9yiMRk6Z3G8cRwmhRQlO02XQ"
       ]
     },
-    "Pichwai 1": {
+    "Lotus": {
       "collections": [
         "Pichwai"
       ],
@@ -1861,7 +1832,7 @@
         "1vnE3Cx2z-RPW0ibRLw9t4NiVG3OdDY0J"
       ]
     },
-    "Pichwai 2": {
+    "Cow Pichwai": {
       "collections": [
         "Pichwai"
       ],
@@ -1897,15 +1868,7 @@
         "1411HFgw4fVYSNF61rwcpU3VNHr0Fgx7T"
       ]
     },
-    "Planter": {
-      "collections": [
-        "Acrylic paintings"
-      ],
-      "desc": "",
-      "images": [
-        "1H-a4mt3fy3MZDQpOD4JUxzwmFZQec6MW"
-      ]
-    },
+
     "Porcelain candle holder": {
       "collections": [
         "Ceramics"
@@ -2050,7 +2013,7 @@
         "1VWqkTCNPhJ4TaR4dI6m9hajLDThY4FC1"
       ]
     },
-    "Rose:Manish Suchi": {
+    "Thapars Manish Suchi": {
       "collections": [
         "Name plates"
       ],
@@ -2068,15 +2031,7 @@
         "1Q9CzlV6iPOB7jFM9l88gFenf_DxlIDay"
       ]
     },
-    "Saraswati": {
-      "collections": [
-        "Tanjore paintings"
-      ],
-      "desc": "",
-      "images": [
-        "1niWMk6HAMzKy0ciYX26pBnapbMU6HPKj"
-      ]
-    },
+
     "Señorita": {
       "collections": [
         "Zentangle"
@@ -2221,33 +2176,18 @@
         "19sP2BJcWXA93_tAnzlE-h0IffUvr4Zez"
       ]
     },
-    "Sunflower 1": {
-      "collections": [
-        "Acrylic paintings"
-      ],
-      "desc": "",
-      "images": [
-        "12czjG33esmTBFsCxXbqq-KvcwROmr5mL"
-      ]
-    },
+
     "Sunflower bookmark": {
       "collections": [
         "Miscellaneous"
       ],
       "desc": "",
       "images": [
-        "1OvApfxEOgp5sbbzbab0f2ZdSVImFoY6Z"
-      ]
-    },
-    "Sunflower bookmark1": {
-      "collections": [
-        "Miscellaneous"
-      ],
-      "desc": "",
-      "images": [
+        "1OvApfxEOgp5sbbzbab0f2ZdSVImFoY6Z",
         "1cE3IcisyTuY08PkI6qbjmCHCDFCuRFEW"
       ]
     },
+
     "Sunflower in pastels": {
       "collections": [
         "Other Works"
@@ -2291,15 +2231,6 @@
       "desc": "",
       "images": [
         "1WwUmtNHZlGYMGpCaiybbmUTzDoHo_Lj7"
-      ]
-    },
-    "Teen Devi": {
-      "collections": [
-        "Tanjore paintings"
-      ],
-      "desc": "",
-      "images": [
-        "1l5NzRr93QunABY_sD_FGOePWO4zHXZBZ"
       ]
     },
     "Thapars": {
@@ -2430,7 +2361,7 @@
         "1C4GyQHhc3mroA2EWxhdFC3Iieb_u7yiv"
       ]
     },
-    "Waterfall": {
+    "Spring Waterfall": {
       "collections": [
         "Acrylic paintings"
       ],
@@ -2463,7 +2394,8 @@
       ],
       "desc": "",
       "images": [
-        "10PcBfiq2YGCwBZ7oUpOjy5f8n4c8OtpO"
+        "10PcBfiq2YGCwBZ7oUpOjy5f8n4c8OtpO",
+        "1H-a4mt3fy3MZDQpOD4JUxzwmFZQec6MW"
       ]
     },
     "Woman & Bird": {
@@ -2502,7 +2434,7 @@
         "1emGUa_RCrJLaKIWXT9BEDmc8Vzn3AHNY"
       ]
     },
-    "love is always the center": {
+    "Love Is Always The Center": {
       "collections": [
         "Zentangle"
       ],
