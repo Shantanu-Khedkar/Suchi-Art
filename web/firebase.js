@@ -20,6 +20,8 @@ export function getCollections() {
     return collections
 }
 
+let OAuth_token = ""
+
 const firebaseConfig = {
     apiKey: "AIzaSyAcTwe6bEPnhd1EBBAP99HGRJNFSFXNoQ4", // To anyone reading the code: Please do not get excited, the api key is not designed to be a secret (source: Firebase Docs) and there are additional checks like email and password provided by Firebase Security Rules...
     authDomain: "suchi-art.firebaseapp.com",
@@ -37,6 +39,7 @@ const database = getDatabase(app);
 const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/drive')
+provider.addScope('https://www.googleapis.com/auth/firebase.database')
 
 export function createFileIndex(f) {
     var name = f.name.split(".")[0];
@@ -64,11 +67,7 @@ export function createTagIndex(f) {
     });
 }
 export function pushItems(path, items) {
-    set(ref(database, path), items).then(() => {
-        console.log(`${path} Nodes Pushed`);
-    }).catch((error) => {
-        console.error('Error Creating Nodes: ', error);
-    });
+    putJson(`${firebaseConfig.databaseURL}${path}.json?access_token=${OAuth_token}`, items)
 }
 
 export function createItems(path, items) {
@@ -98,17 +97,19 @@ export function removeItems(path) {
     remove(ref(database, path));
     console.log("Removed", path)
 }
-export async function pullItems(path) {  // Originally meant to fetch from firebase, currently pulling from local json file
+
+export async function pullItems(path) {  // Originally meant to fetch from firebase using sdk, currently fetches REST API
     console.log("pullItems entered")
-    var jsonO = await fetchJson('data.json')
-    console.log(jsonO) // jsonObject with complete db
-    return jsonO[path] // path of requested data
+    var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json`)
+    console.log(resp) // jsonObject with data
+    return resp
 
 }
 
 // Pull Items with firebase: returns a promise after getting data (fb does not return requests fast)
 /*
 export function pullItems(path) {
+    path = "/"+path
     return new Promise((resolve, reject) => {
         get(child(ref(database), `${path}`)).then((snapshot) => {
             if (snapshot.exists()) {
@@ -123,17 +124,21 @@ export function pullItems(path) {
             reject(error)
         });
     })
-}
-*/
+}*/
 
-
-async function fetchJson(url) {
+async function getJson(url) {
     console.log("yo")
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
     return await res.json(); // parsed JSON object
 }
-
+async function putJson(url, data) {
+    console.log(url, data)
+    fetch(url, {
+        method: 'PUT',
+        body: JSON.stringify(data)
+    }).then(response => response.json())
+}
 
 export async function pullData() {
     console.log("pullData entered")
@@ -141,13 +146,16 @@ export async function pullData() {
 
     collections = await pullItems("collections")
 
-    images = await pullItems("/images")
+    images = await pullItems("images")
     //console.log(projects, collections);
 }
 
 
 export async function startAuth() {
-    return await signInWithPopup(auth, provider)
+    let authCreds = await signInWithPopup(auth, provider)
+    OAuth_token = authCreds._tokenResponse.oauthAccessToken
+    
+    return authCreds
 
 }
 // One Time Function To Label Collections to Projects in Firebase Based on Image Location in Google Drive
