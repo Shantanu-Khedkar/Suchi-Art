@@ -98,13 +98,34 @@ export function removeItems(path) {
     remove(ref(database, path));
     console.log("Removed", path)
 }
-export async function pullItems(path) {
-    console.log("HEY")
+export async function pullItems(path) {  // Originally meant to fetch from firebase, currently pulling from local json file
+    console.log("pullItems entered")
     var jsonO = await fetchJson('data.json')
-    console.log(jsonO)
-    return jsonO[path]
+    console.log(jsonO) // jsonObject with complete db
+    return jsonO[path] // path of requested data
 
 }
+
+// Pull Items with firebase: returns a promise after getting data (fb does not return requests fast)
+/*
+export function pullItems(path) {
+    return new Promise((resolve, reject) => {
+        get(child(ref(database), `${path}`)).then((snapshot) => {
+            if (snapshot.exists()) {
+                //console.log(snapshot.val());
+                resolve(snapshot.val());
+            } else {
+                console.log("No data available");
+                reject("No Data")
+            }
+        }).catch((error) => {
+            console.error(error);
+            reject(error)
+        });
+    })
+}
+*/
+
 
 async function fetchJson(url) {
     console.log("yo")
@@ -115,16 +136,10 @@ async function fetchJson(url) {
 
 
 export async function pullData() {
-    console.log("hey")
+    console.log("pullData entered")
     projects = await pullItems("projects")
 
     collections = await pullItems("collections")
-
-    try {
-        //await indexCollections(projects, collections)
-    } catch (error) {
-        console.log(error)
-    }
 
     images = await pullItems("/images")
     //console.log(projects, collections);
