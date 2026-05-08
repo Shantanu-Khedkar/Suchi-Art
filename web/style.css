@@ -1,12 +1,14 @@
-html{
+html {
     scroll-behavior: smooth;
 }
+
 nav {
     background-color: #f8f9faa8;
     backdrop-filter: blur(10px);
 }
-.button{
-    all:unset;
+
+.button {
+    all: unset;
     display: inline;
     width: fit-content;
     background-color: #f2544b;
@@ -16,17 +18,20 @@ nav {
     padding-right: 20px;
     color: white;
 }
-.button:hover{
+
+.button:hover {
     text-decoration: none;
 }
 
-.rounded{
+.rounded {
     border-radius: 15px !important;
 }
-.hero{
+
+.hero {
     background: #F1C7BD;
-background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198, 1) 50%, rgba(200, 222, 226, 1) 100%);
+    background: linear-gradient(270deg, rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198, 1) 50%, rgba(200, 222, 226, 1) 100%);
 }
+
 .banner {
     display: flex;
     flex-direction: column;
@@ -64,56 +69,75 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
 
 
 
-.card-img-top{
-   
+.card-img-top {
+
     aspect-ratio: 1/1;
     object-fit: cover;
     display: flex;
     align-items: center;
 }
-.card{
-    flex-grow:1;
+
+.card {
+    flex-grow: 1;
     width: 250px;
-    overflow:hidden;
-    
+    overflow: hidden;
+
 }
 
-.card-text{
+.card-text {
     margin-bottom: 2em;
     height: 3em;
-    overflow:scroll;
+    overflow: scroll;
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
 }
-.gallery{
-    gap:20px;
+
+.card-text::-webkit-scrollbar {
+    display: none;
 }
-.gallery .col-sm-4{
+
+.gallery {
+    gap: 20px;
+}
+
+.gallery .col-sm-4 {
     min-width: min-content;
     max-width: max-content;
 }
-.badge-custom{
+
+.badge-custom {
     background-color: #F1C7BD;
     margin: 2px;
+
+    min-width: 10px;
+    width: min-content;
+    display: block !important;
 }
 
-.card-wrapper{
+.card-wrapper {
     width: 100%;
-  justify-content: center;
-  align-items: center;
-  display: flex;
+    justify-content: center;
+    align-items: center;
+    display: flex;
 }
-.modal-content{
+
+.modal-content {
     margin: 0px !important;
 
 }
-.secondary{
+
+.secondary {
     background-color: #c8dee2 !important;
-    color:black !important;
-}
-.secondary:hover{
-    color:black !important;
+    color: black !important;
 }
 
-.about-image{
+.secondary:hover {
+    color: black !important;
+}
+
+.about-image {
     background-image: url('https://lh3.googleusercontent.com/d/11grP8ejIvRYi4KgzwaMifUAEn1I_lO37=w600?authuser=0');
     background-position: center;
     background-size: cover;
@@ -122,25 +146,28 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
     aspect-ratio: 1/1;
 
 }
-.image-container{
+
+.image-container {
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
 }
-.card-wrapper .card-img-top{
+
+.card-wrapper .card-img-top {
     object-fit: contain;
     aspect-ratio: unset;
-    width:100%;
+    width: 100%;
 }
-.fs-4{
+
+.fs-4 {
     font-size: larger !important;
 }
 
-.closeBtn{
+.closeBtn {
     position: absolute;
-    top:10px;
-    right:10px;
+    top: 10px;
+    right: 10px;
     z-index: 3;
     background-color: #ffffff;
     border: none;
@@ -150,34 +177,36 @@ background: linear-gradient(270deg,rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198
     border-radius: 10px;
 
 }
-.carousel a{
-    top:50% !important;
+
+.carousel a {
+    top: 50% !important;
     padding: 5px;
-    width:min-content !important;
+    width: min-content !important;
     transform: translateY(-50%) !important;
     aspect-ratio: 1/4;
     background-color: #ffffff;
     border-radius: 10px;
-    margin:10px;
+    margin: 10px;
     display: flex !important;
 }
 
-.moreBtn{
-        margin-bottom: 20px;
-    width:80%;
- 
+.moreBtn {
+    margin-bottom: 20px;
+    width: 80%;
+
     text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
 }
-.bootstrap-select{
-    width:100% !important;
+
+.bootstrap-select {
+    width: 100% !important;
 }
 
 
-.select-wrapper{
-    width:100%;
+.select-wrapper {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;

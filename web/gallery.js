@@ -114,19 +114,32 @@ export async function listUpdated(oldPath, path, gallery) {
     var nn = path.replaceAll(" ", "-");
     var updatedClone = listProject(path, projects[path], gallery, 0)
 
-    if (oldPath != path) {
-        var card = gallery.querySelector(`[name="${n}"`)
-        card.innerHTML = ""
-        card.appendChild(updatedClone)
-        card.setAttribute("name", nn)
+    if (oldPath != path) { // Title Changes
 
-    } else {
         var card = gallery.querySelector(`[name="${n}"`)
-        if (card == null){ // Assume New Project
+
+        if (card == null) { 
+            // Assume New Project
             gallery.appendChild(updatedClone)
-        }else{
-        card.innerHTML = ""
-        card.appendChild(updatedClone)
+
+        } else {
+            card.innerHTML = ""
+            card.appendChild(updatedClone)
+            card.setAttribute("name", nn)
+
+        }
+
+    } else { // Title Stayed Same
+
+        var card = gallery.querySelector(`[name="${n}"`)
+
+        if (card == null) { 
+            // Assume New Project
+            gallery.appendChild(updatedClone)
+            
+        } else {
+            card.innerHTML = ""
+            card.appendChild(updatedClone)
         }
     }
 }

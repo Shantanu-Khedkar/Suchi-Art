@@ -98,32 +98,27 @@ export function removeItems(path) {
     remove(ref(database, path));
     console.log("Removed", path)
 }
-export function pullItems(path) {
-    return new Promise((resolve, reject) => {
-        get(child(ref(database), `${path}`)).then((snapshot) => {
-            if (snapshot.exists()) {
-                //console.log(snapshot.val());
-                resolve(snapshot.val());
-            } else {
-                console.log("No data available");
-                reject("No Data")
-            }
-        }).catch((error) => {
-            console.error(error);
-            reject(error)
-        });
-    })
+export async function pullItems(path) {
+    console.log("HEY")
+    var jsonO = await fetchJson('data.json')
+    console.log(jsonO)
+    return jsonO[path]
+
 }
 
-export async function pullData() {
-    try {
-        //await driveUpdate()
-    } catch (error) {
-        console.log(error)
-    }
-    projects = await pullItems("/projects")
+async function fetchJson(url) {
+    console.log("yo")
+    const res = await fetch(url);
+    if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
+    return await res.json(); // parsed JSON object
+}
 
-    collections = await pullItems("/collections")
+
+export async function pullData() {
+    console.log("hey")
+    projects = await pullItems("projects")
+
+    collections = await pullItems("collections")
 
     try {
         //await indexCollections(projects, collections)
@@ -136,8 +131,8 @@ export async function pullData() {
 }
 
 
-export async function startAuth(){
-        return await signInWithPopup(auth, provider)
+export async function startAuth() {
+    return await signInWithPopup(auth, provider)
 
 }
 // One Time Function To Label Collections to Projects in Firebase Based on Image Location in Google Drive
