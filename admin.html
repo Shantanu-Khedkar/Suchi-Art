@@ -10,9 +10,8 @@
     <script src="https://cdn.jsdelivr.net/npm/jquery@3.7.1/dist/jquery.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
-    <link href="./fontawesome/css/fontawesome.css" rel="stylesheet" />
-    <link href="./fontawesome/css/solid.css" rel="stylesheet" />
-    <link href="./fontawesome/css/brands.css" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" rel="stylesheet" />
+
     <link rel="stylesheet" href="web/style.css">
 
     <!-- Latest compiled and minified CSS -->
@@ -31,31 +30,33 @@
         <div action="#" id="login-form">
             <p id="errormsg"></p>
             <br><br>
-            <button class="btn-primary btn" id="submit-btn">Authorize Firebase</button>
+            <button class="btn-primary btn" id="submit-btn" style="display:none">Authorize Firebase</button>
             <br><br>
-               <!--Add buttons to initiate auth sequence and sign out-->
+            <!--Add buttons to initiate auth sequence and sign out-->
 
             <pre id="content" style="white-space: pre-wrap;"></pre>
         </div>
+    </center>
+    <center style="display: none;">
+        <div class="jumbotron">
+            <button class="btn-primary btn" id="backup-btn">Take Backup</button>
+            <br><br>
 
-                    <div class="jumbotron">
-                <button class="btn-primary btn" id="backup-btn">Take Backup</button>
-                <br><br>
-
-                <div class="input-group" style="width:fit-content !important">
-                    <input type="file" class="form-control" accept="application/json" id="restore-input"
-                        aria-describedby="restore-btn" aria-label="Restore">
-                    <button class="btn btn-danger" type="button" id="restore-btn">Restore Backup</button>
-                </div>
-
-
+            <div class="input-group" style="width:fit-content !important">
+                <input type="file" class="form-control" accept="application/json" id="restore-input"
+                    aria-describedby="restore-btn" aria-label="Restore">
+                <button class="btn btn-danger" type="button" id="restore-btn">Restore Backup</button>
             </div>
+
+
+        </div>
     </center>
     <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center;">
         <div class="row justify-content-center gallery mb-5" id="newProjectSection">
             <div class="col-sm-4 justify-content-center row" name="New-Project">
                 <div class="card rounded">
-                    <img class="card-img-top" src="https://lh3.googleusercontent.com/d/12bhZ8uD5Ny-tSKaUH4ljQFECFH7v0Ng2=w500?authuser=0"
+                    <img class="card-img-top"
+                        src="https://lh3.googleusercontent.com/d/12bhZ8uD5Ny-tSKaUH4ljQFECFH7v0Ng2=w500?authuser=0"
                         alt="Loading image...">
                     <div class="card-body">
                         <span class="badge badge-custom">We'll See</span>
@@ -203,19 +204,137 @@
             window.location = window.location.origin + window.location.pathname + "?" + qs
         }
 
+        function handleClientLoad() {
+            // load the drive api
+            gapi.client.load('drive', 'v2', handleDriveLoad);
+        }
 
-        document.getElementById("submit-btn").addEventListener("click", async () => {
-            console.log("man")
-            fb.startAuth().then(() => {
-                gly.initialisePanel(1, 10, gallery, collection);
-                document.getElementById("errormsg").innerText = "Signed In"
-            }).catch((error) => {
-                console.log(error)
-                document.getElementById("errormsg").innerText = "Invalid Credentials"
-            });
+        async function handleDriveLoad() {
+            console.log("signingin")
+
+            // If the user is already signed in, skip the Popup and go straight to downloading the file list.
+            let authCreds = await fb.startAuth()
+            handleFirebaseAuthData(null, authCreds)
+
+        }
 
 
-        })
+        async function handleFirebaseAuthData(error, authData) {
+            if (error) {
+                return console.log("Login Failed!", error);
+            }
+
+            console.log("Authenticated successfully with payload:", authData);
+
+            // reformat the token object for the Google Drive API
+            var tokenObject = {
+                access_token: authData._tokenResponse.oauthAccessToken
+            };
+
+            // set the authentication token
+            gapi.auth.setToken(tokenObject);
+
+            // get all the files
+            await fb.pullData()
+            gly.initialisePanel(1, 10, gallery, collection);
+            document.getElementById("errormsg").innerText = "Signed In"
+
+
+
+            driveUpdate();
+        }
+
+
+
+
+        export async function driveUpdate() {
+            var files = await listAllFiles("root")
+            console.log(files)
+            var count = 0
+            var prjcts = {}
+            var images = {}
+            var collections = {}
+            //console.log(files)
+            files.forEach((f) => {
+                var name = f.title.split(".")[0];
+                if (f.mimeType.includes("image")) {
+                    prjcts[name] = { "images": [f.id], "desc": "", "collections": [] }
+                    images[name] = { "id": f.id }
+                } else if (f.mimeType == "application/vnd.google-apps.folder") {
+                    collections[name] = { "images": ["NO_IMAGE"], "id": f.id, "desc": "" }
+                }
+            })
+            //console.log(images, collections)
+            //pushItems("projects", prjcts)
+            fb.pushItems("images", images)
+            fb.createItems("collections", collections)
+
+        }
+
+        async function listFiles() {
+            let response;
+            try {
+                response = await gapi.client.drive.files.list({
+                    'pageSize': 10,
+                    'fields': 'files(id, name)',
+                });
+            } catch (err) {
+                document.getElementById('content').innerText = err.message;
+                return;
+            }
+            const files = response.result.files;
+            if (!files || files.length == 0) {
+                document.getElementById('content').innerText = 'No files found.';
+                return;
+            }
+            // Flatten to string to display
+            const output = files.reduce(
+                (str, file) => `${str}${file.name} (${file.id})\n`,
+                'Files:\n');
+            document.getElementById('content').innerText = output;
+        }
+        async function getParents(id) {
+            let response;
+            try {
+                response = await gapi.client.drive.files.get({
+                    'fields': 'parents',
+                    'fileId': id
+                });
+                x = response.result.parents
+            } catch (err) {
+                document.getElementById('content').innerText = err.message;
+                return;
+            }
+            return response.result.parents
+        }
+
+
+        async function listAllFiles(parent) {
+            let response;
+            var timestr = `modifiedDate > '${new Date(new Date().setDate(new Date().getDate() - 2)).toISOString()}'`; 
+            try {
+                response = await gapi.client.drive.files.list({
+                    'q': timestr,
+                    'pageSize': 1000,
+                    
+                });
+            } catch (err) {
+                document.getElementById('content').innerText = err.message;
+                return;
+            }
+            const files = response.result.items;
+            if (!files || files.length == 0) {
+                console.log(response)
+                document.getElementById('content').innerText = 'No files found.';
+                return;
+            } else {
+                return files
+            }
+
+        }
+
+
+        document.getElementById("submit-btn").addEventListener("click", handleClientLoad)
         document.getElementById("loadMore").addEventListener('click', function () {
             gly.loadProjects(projects, 20, gallery, collection);
         });
@@ -260,6 +379,10 @@
     <!--<script type="text/javascript" src="https://cdn.firebase.com/js/client/2.2.7/firebase.js"></script>-->
     <!--<script type="text/javascript" src="https://apis.google.com/js/client.js?onload=handleClientLoad"></script>-->
     <!--<script async defer src="https://accounts.google.com/gsi/client" onload="gisLoaded()"></script>-->
+
+
+    <script id="clientscript" onload="document.getElementById('submit-btn').style.display='block'"
+        type="text/javascript" src="https://apis.google.com/js/client.js"></script>
 </body>
 
 </html>

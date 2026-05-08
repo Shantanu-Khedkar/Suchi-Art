@@ -38,19 +38,6 @@ const auth = getAuth(app);
 const provider = new GoogleAuthProvider();
 provider.addScope('https://www.googleapis.com/auth/drive')
 
-/*
-function writeUserData(uid, userId, name, email) {
-    console.log(uid)
-    set(ref(database, 'users/' + userId), {
-
-        username: name,
-        email: email
-    }).then(() => {
-        console.log('User data written successfully.');
-    }).catch((error) => {
-        console.error('Error writing user data: ', error);
-    });
-}*/
 export function createFileIndex(f) {
     var name = f.name.split(".")[0];
     set(ref(database, 'images/' + name), {
@@ -148,67 +135,11 @@ export async function pullData() {
     //console.log(projects, collections);
 }
 
-export async function startAuth(userEmail, userPassword) {
 
-
-    /*userEmail = document.getElementById('login-form').children[0].value
-    userPassword = document.getElementById('login-form').children[2].value
-    //console.log(userEmail, userPassword)
-    try {
-        const userCredential = await signInWithEmailAndPassword(auth, userEmail, userPassword);
-        console.log("User signed in:", userCredential.user.uid);
-        return userCredential;
-    } catch (err) {
-        throw new Error('auth failed');
-    }*/
-
-
-
-    signInWithPopup(auth, provider)
-        .then(async (result) => {
-            // This gives you a Google Access Token. You can use it to access the Google API.
-            const credential = GoogleAuthProvider.credentialFromResult(result);
-            const token = credential.accessToken;
-            // The signed-in user info.
-            const user = result.user;
-            // IdP data available using getAdditionalUserInfo(result)
-            console.log("signed in?")
-  
-            await pullData()
-        }).catch((error) => {
-            // Handle Errors here.
-            const errorCode = error.code;
-            const errorMessage = error.message
-            // The AuthCredential type that was used.
-            const credential = GoogleAuthProvider.credentialFromError(error);
-            console.log(error)
-            // ...
-        });
-}
-// One Time Function To Create Skeleton Firebase RTDB
-export async function driveUpdate() {
-    var files = await listAllFiles("root")
-    var count = 0
-    var prjcts = {}
-    var images = {}
-    var collections = {}
-    //console.log(files)
-    files.forEach((f) => {
-        var name = f.name.split(".")[0];
-        if (f.mimeType.includes("image")) {
-            prjcts[name] = { "images": [f.id], "desc": "", "collections": [] }
-            images[name] = { "id": f.id }
-        } else if (f.mimeType == "application/vnd.google-apps.folder") {
-            collections[name] = { "images": ["NO_IMAGE"], "id": f.id, "desc": "" }
-        }
-    })
-    //console.log(images, collections)
-    //pushItems("projects", prjcts)
-    pushItems("images", images)
-    createItems("collections", collections)
+export async function startAuth(){
+        return await signInWithPopup(auth, provider)
 
 }
-
 // One Time Function To Label Collections to Projects in Firebase Based on Image Location in Google Drive
 export async function indexCollections(projects, collections) {
     Object.keys(projects).forEach((p) => {
