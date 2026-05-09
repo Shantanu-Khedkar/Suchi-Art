@@ -252,7 +252,8 @@
 
 
 
-            driveUpdate();
+            await driveUpdate();
+            
         }
 
 
@@ -277,9 +278,9 @@
             })
             //console.log(images, collections)
             //pushItems("projects", prjcts)
-            fb.createItems("images", images)
-            fb.createItems("collections", collections)
-
+            await fb.createItems("images", images)
+            await fb.createItems("collections", collections)
+            await fb.pullData()
         }
         function populateQuickfilters() {
             let qf = document.getElementById("quickfilters")

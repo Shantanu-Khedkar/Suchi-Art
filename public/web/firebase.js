@@ -70,17 +70,16 @@ export async function pushItems(path, items) {
     return await putJson(`${firebaseConfig.databaseURL}${path}.json?access_token=${OAuth_token}`, items)
 }
 
-export function createItems(path, items) {
-    Array.from(Object.keys(items)).forEach((i) => {
-        pullItems(`${path}/${i}`).then((data) => {
-            console.log("ok")
-        }).catch((error) => {
-            if (error == "No Data") {
-                pushItems(`${path}/${i}`, items[i])
+export async function createItems(path, items) {
+    await Array.from(Object.keys(items)).forEach(async (i) => {
+        let data = await pullItems(`${path}/${i}`)
+        console.log(data)
+            if (data == null) {
+               await pushItems(`/${path}/${i}`, items[i])
                 console.log("New Collection Created")
             }
         })
-    })
+
 
 }
 
@@ -154,7 +153,7 @@ export async function pullData() {
 export async function startAuth() {
     let authCreds = await signInWithPopup(auth, provider)
     OAuth_token = authCreds._tokenResponse.oauthAccessToken
-    
+
     return authCreds
 
 }
