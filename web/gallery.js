@@ -107,7 +107,7 @@ export function listCollection(collection, details, gallery) {
 }
 
 export async function listUpdated(oldPath, path, gallery) {
-    await fb.pullData()
+   
 
 
     var n = oldPath.replaceAll(" ", "-");

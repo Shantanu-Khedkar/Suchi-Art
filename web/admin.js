@@ -148,10 +148,14 @@ $(document).ready(function () {
         }
         console.log(item)
 
-        fb.updateItems(`/projects/${oldPath}`, `/projects/${title}`, item)
+        fb.updateItems(`/projects/${oldPath}`, `/projects/${title}`, item).then(() => {
+            fb.pullData().then(() => {
+                card.setAttribute("data-source", title)
+                gly.listUpdated(oldPath, title, gallery)
+            })
+        })
 
-        card.setAttribute("data-source", title)
-        gly.listUpdated(oldPath, title, gallery)
+
     })
 
     $('#deleteModal').on('show.bs.modal', function (event) {
@@ -180,7 +184,7 @@ $(document).ready(function () {
 
     })
 
-    $('input[type="file"]').change(function(e){
+    $('input[type="file"]').change(function (e) {
         var fileName = e.target.files[0].name;
         $('.custom-file-label').html(fileName);
     });

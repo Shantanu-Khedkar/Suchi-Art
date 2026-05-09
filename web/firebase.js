@@ -84,13 +84,13 @@ export function createItems(path, items) {
 
 }
 
-export function updateItems(oldPath, path, items) {
+export async function updateItems(oldPath, path, items) {
     console.log(oldPath, path, items)
     if (oldPath == path) {
-        pushItems(path, items)
+        await pushItems(path, items)
     } else {
-        pushItems(path, items)
-        remove(ref(database, oldPath));
+        await pushItems(path, items)
+        await remove(ref(database, oldPath));
     }
 }
 export function removeItems(path) {
