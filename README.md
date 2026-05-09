@@ -10,22 +10,26 @@ TODO:
     - ✅ Editing Image Links
 
     - Indexing Images 
-        - Uploading Images
+        - ✅ (Done Through Drive) Uploading Images
         - ✅ Pulling From Drive
-        - Safely Removing Images
+        - Safely Removing Image Indexes
 
     - ✅ Full Backup/Restore
     - Format Checking & Sanitizing Project Names In Edit Panel
 
     - General UX Improvement
-        - Streamlined Auth 
+        - ✅ Streamlined Auth 
             - ✅ Drive Auth With FB
         - Permission Checks in Code
         - User Error Messages
-        - Consistent Styling
+        - ✅ Consistent Styling
 
 2. Gallery
     - Searchbar
+    - Modal Navigation (In Modal New Project Switch)
+    - Modal Share Button
+    - Go To Top Button
+    - Alternate Grid Gallery
     - ✅ Nav
     - ✅ Modal Exit Button
     - ✅ Modal Open On Image Click
@@ -44,6 +48,10 @@ TODO:
 
 
 5. Styling:
+    - Carousel Next Button Styling + Current Indicators + Aspect Ratio Fix
+    - About Section Visual Appeal
+    - Navbar Font Increase
+    - Contact Form + About
     - Hover Effects On Cards
     - Brush Font / Animation On Hero Section
     - Scroll Parallax Effects
