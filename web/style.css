@@ -180,10 +180,10 @@ nav {
 
 .carousel a {
     top: 50% !important;
-    padding: 5px;
-    width: min-content !important;
+    padding: 8px;
+    
     transform: translateY(-50%) !important;
-    aspect-ratio: 1/4;
+    height: 80%;
     background-color: #ffffff;
     border-radius: 10px;
     margin: 10px;

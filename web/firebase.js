@@ -66,8 +66,8 @@ export function createTagIndex(f) {
         console.error('Error Creating Tag Index: ', error);
     });
 }
-export function pushItems(path, items) {
-    putJson(`${firebaseConfig.databaseURL}${path}.json?access_token=${OAuth_token}`, items)
+export async function pushItems(path, items) {
+    return await putJson(`${firebaseConfig.databaseURL}${path}.json?access_token=${OAuth_token}`, items)
 }
 
 export function createItems(path, items) {
@@ -127,17 +127,17 @@ export function pullItems(path) {
 }*/
 
 async function getJson(url) {
-    console.log("yo")
+    console.log("getting json")
     const res = await fetch(url);
     if (!res.ok) throw new Error(`HTTP ${res.status} ${res.statusText}`);
     return await res.json(); // parsed JSON object
 }
 async function putJson(url, data) {
     console.log(url, data)
-    fetch(url, {
+    return await fetch(url, {
         method: 'PUT',
         body: JSON.stringify(data)
-    }).then(response => response.json())
+    })
 }
 
 export async function pullData() {
@@ -165,6 +165,7 @@ export async function indexCollections(projects, collections) {
             var c = Object.keys(collections).find(key => collections[key].id === parents[0]);
             console.log(parents)
             pushItems(`/projects/${p}/collections`, [c])
+
         })
     })
 }

@@ -148,7 +148,7 @@ $(document).ready(function () {
         }
         console.log(item)
 
-        fb.updateItems(`/projects/${oldPath}`, `/projects/${title}`, item).then(() => {
+        fb.updateItems(`/projects/${oldPath}`, `/projects/${title}`, item).then((e) => {
             fb.pullData().then(() => {
                 card.setAttribute("data-source", title)
                 gly.listUpdated(oldPath, title, gallery)
