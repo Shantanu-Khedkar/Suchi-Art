@@ -280,6 +280,7 @@
             //pushItems("projects", prjcts)
             await fb.createItems("images", images)
             await fb.createItems("collections", collections)
+            //await fb.indexCollections(projects, collections)
             await fb.pullData()
         }
         function populateQuickfilters() {
@@ -366,7 +367,7 @@
 
 
         document.getElementById("backup-btn").addEventListener('click', function () {
-            fb.pullItems(`/`).then((data) => {
+            fb.pullItems(``,"authed").then((data) => {
                 console.log(data)
 
                 const a = document.createElement("a");

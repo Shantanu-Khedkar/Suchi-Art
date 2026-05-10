@@ -74,11 +74,11 @@ export async function createItems(path, items) {
     await Array.from(Object.keys(items)).forEach(async (i) => {
         let data = await pullItems(`${path}/${i}`)
         console.log(data)
-            if (data == null) {
-               await pushItems(`/${path}/${i}`, items[i])
-                console.log("New Collection Created")
-            }
-        })
+        if (data == null) {
+            await pushItems(`/${path}/${i}`, items[i])
+            console.log("New Collection Created")
+        }
+    })
 
 
 }
@@ -97,9 +97,13 @@ export function removeItems(path) {
     console.log("Removed", path)
 }
 
-export async function pullItems(path) {  // Originally meant to fetch from firebase using sdk, currently fetches REST API
+export async function pullItems(path, authed = "") {  // Originally meant to fetch from firebase using sdk, currently fetches REST API
     console.log("pullItems entered")
-    var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json`)
+    if (authed == ""){
+        var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json`)
+    } else if (authed == "authed"){
+        var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json?access_token=${OAuth_token}`)
+    }
     console.log(resp) // jsonObject with data
     return resp
 
@@ -160,12 +164,11 @@ export async function startAuth() {
 // One Time Function To Label Collections to Projects in Firebase Based on Image Location in Google Drive
 export async function indexCollections(projects, collections) {
     Object.keys(projects).forEach((p) => {
-        getParents(projects[p].images[0]).then((parents) => {
-            var c = Object.keys(collections).find(key => collections[key].id === parents[0]);
-            console.log(parents)
-            pushItems(`/projects/${p}/collections`, [c])
-
-        })
+        if(Boolean(projects[p]["collections"].collections)){
+            let newp =  projects[p]
+            newp["collections"] = ["Madhubani"]
+            pushItems(`/projects/${p}`, newp)
+        }
     })
 }
 
