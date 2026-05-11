@@ -45,7 +45,7 @@ $(document).ready(function () {
         let originalSrc = cardClone.querySelector(".card-img-top").src // Source of orginal card image
         carouselClone.querySelector(".card-img-top").src = originalSrc
         cardClone.querySelector(".card-img-top").remove() // Original image not needed anymore
-
+        cardClone.querySelector(".card-body").style="display: block !important"
 
         var oldPath = card.parent()[0].getAttribute("name").replaceAll("-", " ")
         var p = projects[oldPath] // Project

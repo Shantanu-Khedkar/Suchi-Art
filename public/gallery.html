@@ -106,7 +106,7 @@
 
     <template id="smallModal">
         <div class="col-sm-4 justify-content-center row">
-            <div class="card rounded">
+            <div class="card rounded gridView">
                 <img class="card-img-top" src="assets/logo.png" alt="Loading image..." data-toggle="modal"
                     data-target="#viewModal">
 
@@ -187,7 +187,7 @@
 
         }
 
-        gly.initialisePanel(1, 10, document.getElementById('gallery'), collection).then((m) => {
+        gly.initialisePanel(1, 15, document.getElementById('gallery'), collection).then((m) => {
             console.log(m)
             if (m > 0) {
                 

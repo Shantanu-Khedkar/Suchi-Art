@@ -213,3 +213,15 @@ nav {
     flex-direction: row;
     padding: 5px;
 }
+
+@media screen and (max-width: 520px) {
+.gridView{
+    width: 100px;
+}
+.gridView .card-body{
+    display:none !important;
+}
+.gallery{
+    gap:10px
+}
+}
