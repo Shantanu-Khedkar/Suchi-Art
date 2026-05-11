@@ -245,7 +245,7 @@
             gapi.auth.setToken(tokenObject);
 
             // get all the files
-            await fb.pullData()
+            await fb.pullData(1)
             populateQuickfilters()
             gly.initialisePanel(1, 10, gallery, collection);
             document.getElementById("errormsg").innerText = "Signed In"
@@ -281,7 +281,7 @@
             await fb.createItems("images", images)
             await fb.createItems("collections", collections)
             //await fb.indexCollections(projects, collections)
-            await fb.pullData()
+            await fb.pullData(1) // 1 for from admin.js
         }
         function populateQuickfilters() {
             let qf = document.getElementById("quickfilters")

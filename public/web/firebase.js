@@ -143,13 +143,14 @@ async function putJson(url, data) {
     })
 }
 
-export async function pullData() {
+export async function pullData(fromAdmin = 0) {
     console.log("pullData entered")
     projects = await pullItems("projects")
 
     collections = await pullItems("collections")
-
-    images = await pullItems("images")
+    if(fromAdmin == 1){
+    images = await pullItems("images") // To minimise data usage (Although I really should cache on client-side)
+    }
     //console.log(projects, collections);
 }
 
