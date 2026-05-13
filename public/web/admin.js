@@ -172,6 +172,55 @@ $(document).ready(function () {
         modal.find('.confirm-name').text(name)
     })
 
+    $('#commentModal').on('show.bs.modal', function (event) {
+        var message = $(event.relatedTarget)[0]
+        var title = message.querySelector(".comment-title").innerText
+        var name = message.querySelector('.comment-name').innerText
+        var text = message.querySelector('.comment-content').innerText
+        var modal = $(this)[0]
+        console.log($(this))
+        modal.querySelector(".modal-body").setAttribute("data-verification", message.classList[3])
+        modal.querySelector(".modal-body").setAttribute("data-slug", message.getAttribute("data-slug"))
+        modal.querySelector(".modal-title").innerText = title
+        modal.querySelector(".modal-name").innerText = name
+        modal.querySelector(".modal-message").innerText = text
+    })
+    $('#deleteComment').on('click', function (event) {
+        var button = $(this)[0] // Button that triggered the modal
+        // Extract info from data-* attributes
+        console.log(button)
+        var modal = button.parentElement.previousElementSibling
+        var verifiaction = modal.getAttribute("data-verification")
+        var slug = modal.getAttribute("data-slug")
+        fb.removeItems(`/${verifiaction}_comments/${slug}`)
+    })
+
+
+    $('#publishComment').on('click', function (event) {
+        var button = $(this)[0] // Button that triggered the modal
+        // Extract info from data-* attributes
+        console.log(button)
+        var modal = button.parentElement.previousElementSibling
+        var verifiaction = modal.getAttribute("data-verification")
+        var slug = modal.getAttribute("data-slug")
+        console.log(modal)
+        let title = modal.previousElementSibling.querySelector(".modal-title").innerText
+        let name = modal.querySelector(".modal-name").innerText
+        let message = modal.querySelector(".modal-message").innerText
+
+        fb.removeItems(`/${verifiaction}_comments/${slug}`).then(() => {
+            fb.pushItems(`/verified_comments/${slug}`, {
+                "title": title,
+                "name": name,
+                "comment": message,
+                "date": String(Date.now())
+            })
+
+        })
+
+    })
+
+
     $('#deleteProject').on('click', function (event) {
         var button = $(this) // Button that triggered the modal
         // Extract info from data-* attributes

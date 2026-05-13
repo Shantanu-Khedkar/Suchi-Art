@@ -97,13 +97,13 @@ export async function updateItems(oldPath, path, items) {
         await remove(ref(database, oldPath));
     }
 }
-export function removeItems(path) {
-    remove(ref(database, path));
+export async function removeItems(path) {
+    await remove(ref(database, path));
     console.log("Removed", path)
 }
 
 export async function pullItems(path, authed = "") {  // Originally meant to fetch from firebase using sdk, currently fetches REST API
-    console.log("pullItems entered")
+    console.log("pullItems entered", path)
     if (authed == "") {
         var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json`)
     } else if (authed == "authed") {

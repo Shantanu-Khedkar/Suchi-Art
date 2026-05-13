@@ -237,46 +237,72 @@ nav {
     border: 1px solid #cccccc;
     background-color: #e9ecef;
     flex-wrap: wrap;
+    position: relative;
 }
 
+.comment.verified::after {
+    background-color: green;
+}
+
+.comment.unverified::after {
+    background-color: goldenrod;
+}
+
+.comment::after{
+    content: '';
+    display: block;
+    position: absolute;
+    width: 2em;
+    aspect-ratio: 1/1;
+
+    right: 15px;
+    top: 15px;
+    border-radius: 50%;
+}
 
 
 .comment-body {
     padding: 20px;
     width: fit-content;
+    overflow: hidden;
     display: flex;
     flex-direction: column;
     min-width: 80%;
 
 }
-.textlink{
-    all:unset;
+
+.textlink {
+    all: unset;
     display: flex;
-    gap:10px;
+    gap: 10px;
     transition: all 0.2s;
-    align-items:center
-}
-.textlink span{
-    text-decoration:underline;
-}
-.textlink:hover{
-    all:unset;
-        display: flex;
-    gap:15px;
-    transition: all 0.2s;
-    align-items:center
-
-}
-.comment-form{
-    background-color:#e9ecef;
+    align-items: center
 }
 
-.feedback.unset::after{
-content:""
+.textlink span {
+    text-decoration: underline;
 }
-.feedback.too-long::after{
+
+.textlink:hover {
+    all: unset;
+    display: flex;
+    gap: 15px;
+    transition: all 0.2s;
+    align-items: center
+}
+
+.comment-form {
+    background-color: #e9ecef;
+}
+
+.feedback.unset::after {
+    content: ""
+}
+
+.feedback.too-long::after {
     content: "This Field Is Too Long";
 }
-.feedback.fill-field::after{
+
+.feedback.fill-field::after {
     content: "Please Fill This Field";
 }

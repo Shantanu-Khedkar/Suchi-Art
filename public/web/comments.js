@@ -3,18 +3,24 @@ import * as fb from './firebase.js';
 const commentSection = document.getElementById('comment-section')
 const commentForm = document.getElementById('comment-form')
 
-export function listComment(comment) {
+export function listComment(slug, comment, verification) {
 
     let temp = document.getElementById("comment-template")
     let commentClon = document.importNode(temp.content, true);
+    let commentBody = commentClon.querySelector('.comment-body');
     let commentTitle = commentClon.querySelector('.comment-title');
     let commentName = commentClon.querySelector('.comment-name');
     let commentContent = commentClon.querySelector('.comment-content');
-
+    commentBody.parentElement.setAttribute("data-slug", slug)
+    if (verification){
+    commentBody.parentElement.classList.add(verification)
+    }
     commentTitle.innerText = comment.title
     commentName.innerText = comment.name
     commentContent.innerText = comment.comment
     commentSection.appendChild(commentClon);
+
+
 }
 
 export function validateField(text, maxlength) {
@@ -32,7 +38,7 @@ export function notifyField(error, field) {
 }
 
 
-export function postComment(){
+export function postComment() {
     console.log("Validating Input")
     let Ftitle = commentForm.querySelector('#CT')
     let Fname = commentForm.querySelector('#CN')
@@ -72,9 +78,9 @@ export function postComment(){
             "name": name,
             "comment": message,
             "date": String(Date.now())
-        }).then(()=>{
-            commentForm.parentElement.style.display="none"
-            commentForm.parentElement.nextElementSibling.style.display="block"
+        }).then(() => {
+            commentForm.parentElement.style.display = "none"
+            commentForm.parentElement.nextElementSibling.style.display = "block"
         })
     }
 }

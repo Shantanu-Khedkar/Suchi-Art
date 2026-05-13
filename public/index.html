@@ -255,11 +255,13 @@
         gly.listCollection("Folk paintings", collections["Folk paintings"], gallery)
         gly.listCollection("Acrylic paintings", collections["Acrylic paintings"], gallery)
         gly.listCollection("Ceramics", collections["Ceramics"], gallery)
+        
         let comments = await fb.pullItems("verified_comments")
-
+        if(comments){
         Object.keys(comments).forEach((comment) => {
-            cmt.listComment(comments[comment])
+            cmt.listComment(comment, comments[comment], "")
         })
+    }
         document.getElementById("post-comment-btn").addEventListener("click", () => {
             cmt.postComment()
         })

@@ -38,6 +38,12 @@
     <div id="adminPanel" style="display: none;">
         <div id="quickfilters" class="mb-3">
         </div>
+        <div class="container-fluid ">
+            <h1><b>Comments</b></h1>
+            <hr>
+            <div class="row comment-section" id="comment-section">
+            </div>
+        </div>
         <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center;">
             <div class="row justify-content-center gallery mb-5" id="newProjectSection">
                 <div class="col-sm-4 justify-content-center row" name="New-Project">
@@ -150,8 +156,30 @@
                 </div>
             </div>
         </div>
-
     </template>
+
+
+        <div id="commentModal" class="modal" tabindex="-1" role="dialog">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" contenteditable="true"></h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <span class="modal-name" contenteditable="true"></span>
+                        <p class="modal-message" contenteditable="true"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="publishComment" class="btn btn-primary">Publish</button>
+                        <button type="button" id="deleteComment" class="btn btn-danger">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     <template id="largeModalCarousel">
@@ -183,12 +211,24 @@
         </div>
     </template>
 
+    <template id="comment-template">
+        <div class="container-fluid comment rounded" data-toggle="modal" data-target="#commentModal">
+            <div class="comment-body">
+
+                <h4 class="comment-title" ><b>Loading Title</b></h4>
+                <p>~ <b class="comment-name" >Loading Name</b></p>
+                <span class="comment-content" >Loading Comment</span>
+
+            </div>
+        </div>
+    </template>
 
     <script src="web/admin.js" type="module"></script>
 
     <script type="module">
         import * as gly from './web/gallery.js';
         import * as fb from './web/firebase.js'
+        import * as cmt from './web/comments.js';
 
         const params = new URLSearchParams(window.location.search);
         var collection = params.getAll('c');
@@ -250,10 +290,21 @@
             gly.initialisePanel(1, 10, gallery, collection);
             document.getElementById("errormsg").innerText = "Signed In"
 
-
+            let ucomments = await fb.pullItems("unverified_comments", "authed")
+            let vcomments = await fb.pullItems("verified_comments")
+            if(ucomments){
+            Object.keys(ucomments).forEach((comment) => {
+                cmt.listComment(comment, ucomments[comment], "unverified")
+            })
+        }
+        if (vcomments){
+            Object.keys(vcomments).forEach((comment) => {
+                cmt.listComment(comment, vcomments[comment], "verified")
+            })
+        }
 
             await driveUpdate();
-            
+
         }
 
 
@@ -367,7 +418,7 @@
 
 
         document.getElementById("backup-btn").addEventListener('click', function () {
-            fb.pullItems(``,"authed").then((data) => {
+            fb.pullItems(``, "authed").then((data) => {
                 console.log(data)
 
                 const a = document.createElement("a");
