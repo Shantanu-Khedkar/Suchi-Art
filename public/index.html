@@ -86,7 +86,7 @@
                 <h1 class="text-center"><b>About</b></h1>
                 <hr>
                 <p>
-                    <b>Welcome to <span style="font-size: larger; color:blueviolet">Suchi Art Creation</span>, where
+                    <b>Welcome to <span style="color:#f2544b;  font-size: larger;">Suchi Art Creation</span>, where
                         tradition meets creativity and every piece of art tells a
                         timeless story.</b>
                 </p>
@@ -106,15 +106,10 @@
                     explore our collection and experience the charm of handcrafted excellence, where every brushstroke
                     carries creativity, intimacy, and grace.
                 <p>
-                    <b>
-                        For customised orders leave a mail at <a
-                            href="mailto:suchi.thapar.14@gmail.com">suchi.thapar.14@gmail.com</a></b>
+                    <a href="#contact-section" class="textlink"><span>For customised orders contact us below!</span><i
+                            class="fa-solid fa-circle-right"></i></a>
                 </p>
 
-                </p>
-                <p>
-
-                </p>
 
             </div>
             <div class="col-lg-6 text-center image-container">
@@ -131,73 +126,146 @@
             <div class="row justify-content-center gallery mb-5" id="gallery"></div>
             <a href="gallery.html" class="button rounded text-light">View All</a>
         </div>
-        <div class="jumbotron text-center" id="contact-section">
-            <h1><b>Contact</b></h1>
+
+        <div class="container-fluid ">
+            <h1><b>Comments</b></h1>
             <hr>
-            <p class="fs-4">Get in touch to make your art dreams come true!</p>
-            <br>
-            <i class="fa-solid fa-envelope"></i> Mail: <a
-                href="mailto:suchi.thapar.14@gmail.com">suchi.thapar.14@gmail.com</a>
-
-            <br>
-            <i class="fa-solid fa-phone"></i> Call: <a
-                href="tel:+919373220409">+91 9373220409</a>
-
+            <div class="row comment-section" id="comment-section">
+            </div>
         </div>
-
-
-        <template>
-            <div class="col-sm-4 justify-content-center row">
-                <div class="card rounded">
-                    <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="container button rounded secondary">Explore <i
-                                class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                    </div>
+        <hr>
+        <p class="fs-4">
+            We hope you enjoyed browsing through Suchi Art Creation. All paintings and crafts are created with
+            delicacy and love. When minute attention is given to each detail, the result is sure to be as wonderful
+            as these creations. Leave a comment below to express your interest, opinion and support.
+        </p>
+        <hr>
+        <div style="width: 100%; background-color: #e9ecef; padding:20px" class="rounded">
+            <div class="rounded" id="comment-form">
+                <div class="form-group fs-4">
+                    <label for="CT"><b>Title</b></label>
+                    <input type="text" class="form-control" id="CT" placeholder="Comment Title" required maxlength="40">
+                    <div style="font-size: smaller" class="feedback unset"></div>
+                </div>
+                <div class="form-group fs-4">
+                    <label for="CN"><b>Name</b></label>
+                    <input type="text" class="form-control" id="CN" placeholder="Your Name" required maxlength="30">
+                    <div style="font-size: smaller" class="feedback unset"></div>
+                </div>
+                <div class="form-group fs-4">
+                    <label for="CM"><b>Message</b></label>
+                    <textarea style="max-height: 10em; min-height: 2em;" type="text" class="form-control" id="CM"
+                        placeholder="Your Message" required maxlength="280"></textarea>
+                    <div style="font-size: smaller" class="feedback unset"></div>
+                </div>
+                <div class="form-group">
+                    <button id="post-comment-btn" class="rounded button button-primary">Send <i
+                            class="fa-solid fa-circle-right"></i></button>
                 </div>
             </div>
 
-        </template>
-        <script src="web/client.js" type="module"></script>
-        <script type="module">
-            import * as fb from './web/firebase.js';
-            const gallery = document.getElementById('gallery')
+        </div>
+        <div style="width: 100%; background-color: #e9ecef; padding:20px; text-align: center; display: none;"
+            class="rounded">
+            <h2>Thanks For Sharing!</h2>
+            <p>We've received your message. We will review and publish it shortly.</p>
+        </div>
+    </div>
+    <br>
 
-            Object.defineProperty(window, 'projects', {
-                get: function () {
-                    return fb.getProjects();
-                },
-                configurable: true
-            });
+    <div class="jumbotron text-center" id="contact-section">
+        <h1><b>Contact</b></h1>
+        <hr>
+        <p class="fs-4">Get in touch to make your art dreams come true!</p>
+        <br>
+        <i class="fa-solid fa-envelope"></i> Mail: <a
+            href="mailto:suchi.thapar.14@gmail.com">suchi.thapar.14@gmail.com</a>
 
-            Object.defineProperty(window, 'images', {
-                get: function () {
-                    return fb.getImages();
-                },
-                configurable: true
-            });
+        <br>
+        <i class="fa-solid fa-phone"></i> Call: <a href="tel:+919373220409">+91 9373220409</a>
 
-            Object.defineProperty(window, 'collections', {
-                get: function () {
-                    return fb.getCollections();
-                },
-                configurable: true
-            });
+    </div>
 
 
 
-            import * as gly from './web/gallery.js';
 
-            await gly.initialisePanel(0, 0, document.getElementById('gallery'))
-            console.log(collections)
-            gly.listCollection("Tanjore paintings", collections["Tanjore paintings"], gallery)
-            gly.listCollection("Folk paintings", collections["Folk paintings"], gallery)
-            gly.listCollection("Acrylic paintings", collections["Acrylic paintings"], gallery)
-            gly.listCollection("Ceramics", collections["Ceramics"], gallery)
-        </script>
+    <!--END OF VISIBLE DOM-->
+
+
+    <template>
+        <div class="col-sm-4 justify-content-center row">
+            <div class="card rounded">
+                <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
+                <div class="card-body">
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk
+                        of
+                        the card's content.</p>
+                    <a href="#" class="container button rounded secondary">Explore <i
+                            class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                </div>
+            </div>
+        </div>
+
+    </template>
+    <template id="comment-template">
+        <div class="container-fluid comment rounded">
+            <div class="comment-body">
+
+                <h4 class="comment-title"><b>Loading Title</b></h4>
+                <p>~ <b class="comment-name">Loading Name</b></p>
+                <span class="comment-content">Loading Comment</span>
+            </div>
+        </div>
+    </template>
+    <script src="web/client.js" type="module"></script>
+    <script type="module">
+        import * as fb from './web/firebase.js';
+        const gallery = document.getElementById('gallery')
+
+        Object.defineProperty(window, 'projects', {
+            get: function () {
+                return fb.getProjects();
+            },
+            configurable: true
+        });
+
+        Object.defineProperty(window, 'images', {
+            get: function () {
+                return fb.getImages();
+            },
+            configurable: true
+        });
+
+        Object.defineProperty(window, 'collections', {
+            get: function () {
+                return fb.getCollections();
+            },
+            configurable: true
+        });
+
+
+
+        import * as gly from './web/gallery.js';
+        import * as cmt from './web/comments.js';
+
+        await gly.initialisePanel(0, 0, document.getElementById('gallery'))
+        console.log(collections)
+        gly.listCollection("Tanjore paintings", collections["Tanjore paintings"], gallery)
+        gly.listCollection("Folk paintings", collections["Folk paintings"], gallery)
+        gly.listCollection("Acrylic paintings", collections["Acrylic paintings"], gallery)
+        gly.listCollection("Ceramics", collections["Ceramics"], gallery)
+        let comments = await fb.pullItems("verified_comments")
+
+        Object.keys(comments).forEach((comment) => {
+            cmt.listComment(comments[comment])
+        })
+        document.getElementById("post-comment-btn").addEventListener("click", () => {
+            cmt.postComment()
+        })
+
+
+    </script>
 </body>
 
 </html>

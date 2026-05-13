@@ -10,6 +10,7 @@ let projects = {};
 let images = {};
 let collections = {};
 
+
 export function getProjects() {
     return projects
 }
@@ -70,6 +71,10 @@ export async function pushItems(path, items) {
     return await putJson(`${firebaseConfig.databaseURL}${path}.json?access_token=${OAuth_token}`, items)
 }
 
+export async function pushComment(path, items) {
+    return await putJson(`${firebaseConfig.databaseURL}${path}.json`, items)
+}
+
 export async function createItems(path, items) {
     await Array.from(Object.keys(items)).forEach(async (i) => {
         let data = await pullItems(`${path}/${i}`)
@@ -99,9 +104,9 @@ export function removeItems(path) {
 
 export async function pullItems(path, authed = "") {  // Originally meant to fetch from firebase using sdk, currently fetches REST API
     console.log("pullItems entered")
-    if (authed == ""){
+    if (authed == "") {
         var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json`)
-    } else if (authed == "authed"){
+    } else if (authed == "authed") {
         var resp = await getJson(`${firebaseConfig.databaseURL}/${path}.json?access_token=${OAuth_token}`)
     }
     console.log(resp) // jsonObject with data
@@ -148,8 +153,8 @@ export async function pullData(fromAdmin = 0) {
     projects = await pullItems("projects")
 
     collections = await pullItems("collections")
-    if(fromAdmin == 1){
-    images = await pullItems("images") // To minimise data usage (Although I really should cache on client-side)
+    if (fromAdmin == 1) {
+        images = await pullItems("images") // To minimise data usage (Although I really should cache on client-side)
     }
     //console.log(projects, collections);
 }
@@ -165,8 +170,8 @@ export async function startAuth() {
 // One Time Function To Label Collections to Projects in Firebase Based on Image Location in Google Drive
 export async function indexCollections(projects, collections) {
     Object.keys(projects).forEach((p) => {
-        if(Boolean(projects[p]["collections"].collections)){
-            let newp =  projects[p]
+        if (Boolean(projects[p]["collections"].collections)) {
+            let newp = projects[p]
             newp["collections"] = ["Madhubani"]
             pushItems(`/projects/${p}`, newp)
         }

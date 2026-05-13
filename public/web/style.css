@@ -181,7 +181,7 @@ nav {
 .carousel a {
     top: 50% !important;
     padding: 8px;
-    
+
     transform: translateY(-50%) !important;
     height: 80%;
     background-color: #ffffff;
@@ -215,13 +215,68 @@ nav {
 }
 
 @media screen and (max-width: 520px) {
-.gridView{
-    width: 100px;
+    .gridView {
+        width: 100px;
+    }
+
+    .gridView .card-body {
+        display: none !important;
+    }
+
+    .gallery {
+        gap: 10px
+    }
 }
-.gridView .card-body{
-    display:none !important;
+
+.comment {
+    display: flex;
+    flex-direction: row;
+    min-height: 5em;
+    margin-bottom: 20px;
+    gap: 15px;
+    border: 1px solid #cccccc;
+    background-color: #e9ecef;
+    flex-wrap: wrap;
 }
-.gallery{
-    gap:10px
+
+
+
+.comment-body {
+    padding: 20px;
+    width: fit-content;
+    display: flex;
+    flex-direction: column;
+    min-width: 80%;
+
 }
+.textlink{
+    all:unset;
+    display: flex;
+    gap:10px;
+    transition: all 0.2s;
+    align-items:center
+}
+.textlink span{
+    text-decoration:underline;
+}
+.textlink:hover{
+    all:unset;
+        display: flex;
+    gap:15px;
+    transition: all 0.2s;
+    align-items:center
+
+}
+.comment-form{
+    background-color:#e9ecef;
+}
+
+.feedback.unset::after{
+content:""
+}
+.feedback.too-long::after{
+    content: "This Field Is Too Long";
+}
+.feedback.fill-field::after{
+    content: "Please Fill This Field";
 }
