@@ -89,25 +89,47 @@ export function listProject(project, details, gallery, list = 1) {
 }
 export function listCollection(collection, details, gallery) {
     //console.log(projects[project])
-    let temp = document.getElementsByTagName("template")[0];
-    let clon = document.importNode(temp.content, true);
+    let temp = document.getElementById("collection-template");
+    let temp2 = document.getElementById("carousel-template");
 
+    let clon = document.importNode(temp.content, true);
+    let carouselClone = document.importNode(temp2.content, true);
+    carouselClone.querySelector(".carousel").setAttribute("id", `cc-${collection.replaceAll(" ", "-")}`)
+    Array.from(carouselClone.querySelector(".carousel").getElementsByTagName("a")).forEach((btn)=>{
+        btn.setAttribute('href', `#cc-${collection.replaceAll(" ", "-")}`)
+    })
     let cardTitle = clon.querySelector('.card-title');
     let cardDesc = clon.querySelector('.card-text');
-    let cardImage = clon.querySelector('.card-img-top');
+    let cardCarouselWrap = clon.querySelector('.carousel-wrapper');
     let cardLink = clon.querySelector(".secondary")
     cardTitle.textContent = collection
     cardDesc.textContent = details.desc
     cardLink.setAttribute("href", `gallery.html?c=${collection}`)
     clon.firstElementChild.setAttribute("name", collection.replaceAll(" ", "-"))
-    cardImage.src = `https://lh3.googleusercontent.com/d/${details.images[0]}=w500?authuser=0`
+
+
+
+    carouselClone.querySelector(".card-img-top").src = `https://lh3.googleusercontent.com/d/${details.images[0]}=w500?authuser=0`
+    carouselClone.querySelector('.carousel-control-prev').style.display = "block"
+    carouselClone.querySelector('.carousel-control-next').style.display = "block"
+    let pi = details.images.slice(1)
+
+    pi.forEach((i) => {
+            let carouselImage = document.getElementById("carouselImage").content.cloneNode(true); // Carousel images
+            carouselImage.querySelector('.card-img-top').src = `https://lh3.googleusercontent.com/d/${i}=w500?authuser=0`
+            carouselClone.querySelector('.carousel-inner').appendChild(carouselImage)
+        })
+        
+    cardCarouselWrap.appendChild(carouselClone)
+
+
     // getFile(details.images[0])
     //console.log(clon)
     gallery.appendChild(clon);
 }
 
 export async function listUpdated(oldPath, path, gallery) {
-   
+
 
 
     var n = oldPath.replaceAll(" ", "-");
@@ -118,7 +140,7 @@ export async function listUpdated(oldPath, path, gallery) {
 
         var card = gallery.querySelector(`[name="${n}"`)
 
-        if (card == null) { 
+        if (card == null) {
             // Assume New Project
             gallery.appendChild(updatedClone)
 
@@ -133,10 +155,10 @@ export async function listUpdated(oldPath, path, gallery) {
 
         var card = gallery.querySelector(`[name="${n}"`)
 
-        if (card == null) { 
+        if (card == null) {
             // Assume New Project
             gallery.appendChild(updatedClone)
-            
+
         } else {
             card.innerHTML = ""
             card.appendChild(updatedClone)
