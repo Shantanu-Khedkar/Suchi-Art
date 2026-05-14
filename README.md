@@ -29,7 +29,7 @@ TODO:
     - Modal Navigation (In Modal New Project Switch)
     - Modal Share Button
     - Go To Top Button
-    - Alternate Grid Gallery
+    - ✅ Alternate Grid Gallery
     - ✅ Nav
     - ✅ Modal Exit Button
     - ✅ Modal Open On Image Click
@@ -40,12 +40,15 @@ TODO:
 3. Main Page
     - ✅ Add Profile Image 
     - ✅ Use Drive Images For Faster Load Times
+    - Collections Cards Horizontal Carousel
+    - Add Zentangle Collection 
 
 4. Commenting
-    - Setup FB Path
-    - Figure out Auth/ID
-    - Create Interface
+    - ✅ Setup FB Path
+    - ✅ Figure out Auth/ID
+    - ✅ Create Interface
 
+5. Contact Page To Email
 
 5. Styling:
     - Carousel Next Button Styling + Current Indicators + Aspect Ratio Fix

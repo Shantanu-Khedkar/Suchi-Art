@@ -119,14 +119,15 @@ export function listCollection(collection, details, gallery) {
             carouselImage.querySelector('.card-img-top').src = `https://lh3.googleusercontent.com/d/${i}=w500?authuser=0`
             carouselClone.querySelector('.carousel-inner').appendChild(carouselImage)
         })
-        
+    
     cardCarouselWrap.appendChild(carouselClone)
 
 
     // getFile(details.images[0])
     //console.log(clon)
     gallery.appendChild(clon);
-}
+    
+    }
 
 export async function listUpdated(oldPath, path, gallery) {
 
