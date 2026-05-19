@@ -262,7 +262,7 @@
 
     <!--Carousel of Card/Collection Template-->
     <template id="carousel-template">
-        <div id="carouselControls" class="carousel slide" data-ride="carousel" data-interval="3000">
+        <div id="carouselControls" class="carousel slide">
             <div class="carousel-inner">
                 <div class="carousel-item active">
                     <img class="card-img-top" src="assets/logo.png" alt="Loading image...">
@@ -319,7 +319,8 @@
      - comments.js
      - firebase.js
      -->
-    <script type="module">
+
+    <script defer type="module">
         import * as fb from './web/firebase.js';
         import * as gly from './web/gallery.js';
         import * as cmt from './web/comments.js';
