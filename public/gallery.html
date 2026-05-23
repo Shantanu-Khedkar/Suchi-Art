@@ -24,9 +24,9 @@
 
 <body>
     <nav class="navbar fixed-top navbar-expand-lg navbar-light m-2 rounded">
-        <a class="navbar-brand" href="index.html" style="display:flex; justify-content: center;align-items:center; gap:10px">
-            <img src="https://lh3.googleusercontent.com/d/12bhZ8uD5Ny-tSKaUH4ljQFECFH7v0Ng2=w100?authuser=0" width="40"
-                height="40" class="d-inline-block align-top rounded-circle" alt="">
+        <a class="navbar-brand" href="index.html"
+            style="display:flex; justify-content: center;align-items:center; gap:10px">
+            <img src="assets/logo.jpg" width="40" height="40" class="d-inline-block align-top rounded-circle" alt="">
             Suchi Art Creation</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -64,9 +64,11 @@
                         <a class="dropdown-item" href="gallery.html?c=Zentangle">Zentangle</a>
                     </div>
                 </li>
-
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html#contact-section">Contact</a>
+                    <a href="index.html#reviews-section" class="nav-link">Reviews</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact-section">Contact</a>
                 </li>
 
             </ul>
@@ -92,13 +94,86 @@
         <p class="fs-4"></p>
         <br>
     </div>
-    <div class="container-fluid" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+    <div class="container-fluid"
+        style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <div class="row justify-content-center gallery mb-5" id="gallery">
 
         </div>
-        <button class="button text-dark rounded moreBtn secondary" style="display:none" id="loadMore"><b>Load More</b></button>
+        <button class="button text-dark rounded moreBtn secondary" style="display:none" id="loadMore"><b>Load
+                More</b></button>
     </div>
-    
+
+    <!--Contact Section-->
+
+
+    <footer id="contact-section" class="page-footer fs-4 bg-dark text-light pt-4">
+        <!-- Footer Links -->
+        <div class="container-fluid text-center">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-4 mt-md-0 mt-3 text-center">
+                    <!-- Content -->
+                    <img src="assets/logo.jpg" style="width:10em; aspect-ratio:1/1; object-fit: cover;"
+                        class="rounded"></img><br><br>
+
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-4 mb-md-0 mb-3 text-center"
+                    style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap:10px">
+                    <!-- Links -->
+                    <h3>Contact Us</h3>
+
+                    <div class="icon-grid text-dark">
+
+
+                        <a href="mailto:suchi.thapar.14@gmail.com" class="link-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                        <a href="tel:+919373220409" class="link-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </a> <a href="https://instagram.com/suchiartcreation" class="link-icon">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a> <a href="https://facebook.com/SuchiArtCreations" class="link-icon">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+
+                    </div>
+                    <hr>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-4 mb-md-0 mb-3 text-center"
+                    style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap:10px">
+                    <!-- Links -->
+                    <h3>Quicklinks</h3>
+
+                    <div class="icon-grid text-dark">
+
+
+                        <a href="#" class="link-icon">
+                            <i class="fa-solid fa-home"></i>
+                        </a>
+                        <a href="#about-section" class="link-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </a> <a href="#reviews-section" class="link-icon">
+                            <i class="fa-solid fa-comment"></i>
+                        </a> <a href="gallery.html" class="link-icon">
+                            <i class="fa-solid fa-image"></i>
+                        </a>
+
+                    </div>
+                    <hr>
+                </div>
+                <!-- Grid column -->
+
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Footer Links -->
+
+    </footer>
+
     <!-- Modal -->
     <div class="modal fade" id="viewModal" tabindex="-1" role="dialog" aria-labelledby="editModalTitle"
         aria-hidden="true" data-source="">
@@ -194,7 +269,7 @@
 
         }
 
-        gly.initialisePanel(1, 15, document.getElementById('gallery'), collection).then((m) => {
+        gly.initialisePanel(1, 10, document.getElementById('gallery'), collection).then((m) => {
             console.log(m)
             if (m > 0) {
 
@@ -202,7 +277,7 @@
             }
         })
         document.getElementById("loadMore").addEventListener('click', function () {
-            gly.loadProjects(projects, 20, gallery, collection).then((m) => {
+            gly.loadProjects(projects, 10, gallery, collection).then((m) => {
                 if (!(m > 0)) {
                     this.style.display = "none"
                 }
