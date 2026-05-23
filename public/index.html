@@ -27,7 +27,7 @@
 <body data-spy="scroll" data-target=".navbar" data-offset="50">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light m-2 rounded">
         <a class="navbar-brand" href="#" style="display:flex; justify-content: center;align-items:center; gap:10px">
-            <img src="https://lh3.googleusercontent.com/d/12bhZ8uD5Ny-tSKaUH4ljQFECFH7v0Ng2=w100?authuser=0" width="40"
+            <img src="assets/logo.jpg" width="40"
                 height="40" class="d-inline-block align-top rounded-circle" alt="">
             Suchi Art Creation</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -68,6 +68,10 @@
                 </li>
 
                 <li class="nav-item">
+                    <a class="nav-link" href="#reviews-section">Reviews</a>
+                </li>
+
+                <li class="nav-item">
                     <a class="nav-link" href="#contact-section">Contact</a>
                 </li>
 
@@ -95,6 +99,37 @@
 
     <br>
 
+    <div id="mainCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+
+  <!-- Indicators -->
+  <ul class="carousel-indicators">
+    <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#mainCarousel" data-slide-to="1"></li>
+    <li data-target="#mainCarousel" data-slide-to="2"></li>
+  </ul>
+  
+  <!-- The slideshow -->
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img src="https://lh3.googleusercontent.com/d/1ney34OM3EcX-0oF6Tn0PGzMTyMihBvZV?authuser=0" alt="Flamenco" width="100%" height="600" style="object-fit: cover; object-position: top;">
+    </div>
+    <div class="carousel-item">
+      <img src="https://lh3.googleusercontent.com/d/14HuV3FYWHSucP3zGNovnK6okELqV1MdD?authuser=0" alt="Acrylic" width="100%" height="600" style="object-fit: cover; object-position: middle;">
+    </div>
+    <div class="carousel-item">
+      <img src="https://lh3.googleusercontent.com/d/1vhip0rK-ZDcSNZg6nJqNrHLq5iqCfK7t?authuser=0" alt="Pichwai" width="100%" height="600" style="object-fit: cover; object-position: middle;">
+    </div>
+  </div>
+  
+  <!-- Left and right controls -->
+  <a class="carousel-control-prev" href="#mainCarousel" data-slide="prev">
+    <i class="fs-4 fa-solid fa-caret-left text-dark"></i>
+  </a>
+  <a class="carousel-control-next" href="#mainCarousel" data-slide="next">
+    <i class="fs-4 fa-solid fa-caret-right text-dark"></i>
+  </a>
+</div>
+<br>
     <!--Gallery Section-->
     <div class="container-fluid">
         <div class="container-fluid text-center" id="gallery-section">
@@ -150,14 +185,16 @@
     </div>
 
     <!--Comments Section-->
-    <div class="container-fluid ">
-        <div class="container-fluid ">
-            <h1><b>Comments</b></h1>
+    <div class="container-fluid " id="reviews-section">
+        <div class="container-fluid " style="position: relative;">
+            <button onclick="document.getElementById('review-input').style.display='block'; document.getElementById('review-input').scrollIntoView()" class="button rounded text-light" style="position: absolute; right: 0; top: 0;"><i class="fa-solid fa-pen"></i> Write A Review</button>
+            <h1><b>Reviews</b></h1>
             <hr>
             <div class="row comment-section" id="comment-section">
             </div>
         </div>
         <hr>
+        <div id="review-input" style="display: none;">
         <p class="fs-4">
             We hope you enjoyed browsing through Suchi Art Creation. All paintings and crafts are created with
             delicacy and love. When minute attention is given to each detail, the result is sure to be as wonderful
@@ -199,10 +236,81 @@
         </div>
 
     </div>
+</div>
     <br>
 
     <!--Contact Section-->
-    <!--TODO: Make it cleaner with icons as primary anchors-->
+    
+
+    <footer id="contact-section" class="page-footer fs-4 bg-dark text-light pt-4">
+        <!-- Footer Links -->
+        <div class="container-fluid text-center">
+            <!-- Grid row -->
+            <div class="row">
+                <!-- Grid column -->
+                <div class="col-md-4 mt-md-0 mt-3 text-center">
+                    <!-- Content -->
+                    <img src="assets/logo.jpg"
+                        style="width:10em; aspect-ratio:1/1; object-fit: cover;" class="rounded"></img><br><br>
+
+                </div>
+                <!-- Grid column -->
+                <div class="col-md-4 mb-md-0 mb-3 text-center"
+                    style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap:10px">
+                    <!-- Links -->
+                    <h3>Contact Us</h3>
+
+                    <div class="icon-grid text-dark">
+
+
+                        <a href="mailto:suchi.thapar.14@gmail.com" class="link-icon">
+                            <i class="fa-solid fa-envelope"></i>
+                        </a>
+                        <a href="tel:+919373220409" class="link-icon">
+                            <i class="fa-solid fa-phone"></i>
+                        </a> <a href="https://instagram.com/suchiartcreation" class="link-icon">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a> <a href="https://facebook.com/SuchiArtCreations" class="link-icon">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+
+                    </div>
+                    <hr>
+                </div>
+                <!-- Grid column -->
+                <!-- Grid column -->
+                <div class="col-md-4 mb-md-0 mb-3 text-center"
+                    style="display: flex; flex-direction: column; justify-content: center; align-items: center; gap:10px">
+                    <!-- Links -->
+                    <h3>Quicklinks</h3>
+
+                    <div class="icon-grid text-dark">
+
+
+                        <a href="#" class="link-icon">
+                            <i class="fa-solid fa-home"></i>
+                        </a>
+                        <a href="#about-section" class="link-icon">
+                            <i class="fa-solid fa-user"></i>
+                        </a> <a href="#reviews-section" class="link-icon">
+                            <i class="fa-solid fa-comment"></i>
+                        </a> <a href="gallery.html" class="link-icon">
+                            <i class="fa-solid fa-image"></i>
+                        </a>
+
+                    </div>
+                    <hr>
+                </div>
+                <!-- Grid column -->
+                
+            </div>
+            <!-- Grid row -->
+        </div>
+        <!-- Footer Links -->
+
+    </footer>
+
+    <!--
     <div class="jumbotron text-center" id="contact-section">
         <h1><b>Contact</b></h1>
         <hr>
@@ -224,6 +332,7 @@
             Creation</a>
 
     </div>
+-->
 
 
 
@@ -371,7 +480,7 @@
         if (comments) {
             Object.keys(comments).forEach((comment) => {
                 // cmt.listComment(<COMMENT SLUG>, <COMMENT DETAILS>, <VERIFICATION>)
-                cmt.listComment(comment, comments[comment], "verified") 
+                cmt.listComment(comment, comments[comment], "verified")
             })
         }
 

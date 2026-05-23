@@ -21,6 +21,7 @@ nav {
 
 .button:hover {
     text-decoration: none;
+    color: white !important;
 }
 
 .rounded {
@@ -304,4 +305,28 @@ nav {
 
 .feedback.fill-field::after {
     content: "Please Fill This Field";
+}
+.icon-grid{
+    display: flex;
+    justify-content: center;
+    gap:10px
+}
+.link-icon{
+    all:unset;
+    display: flex;
+    aspect-ratio: 1/1;
+    font-size: x-large;
+    padding: 0.5em;
+    text-align: center;
+    background-color: #cccccc;
+    border-radius: 10px;
+    justify-content: center;
+    align-items: center;
+}
+.link-icon:hover{
+text-decoration: none;
+}
+#reviews-section .comment::after{
+    content: '';
+    display: none;
 }
