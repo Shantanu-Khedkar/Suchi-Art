@@ -7,7 +7,11 @@ TODO:
 
 1. Admin Panel
     - ✅ Creating Projects
+    - ✅ Editing Projects
     - ✅ Editing Image Links
+
+    - Editing Collections
+    - Editing Main Index Carousel
 
     - Indexing Images 
         - ✅ (Done Through Drive) Uploading Images
@@ -29,6 +33,8 @@ TODO:
     - Modal Navigation (In Modal New Project Switch)
     - Modal Share Button
     - Go To Top Button
+    - Main Gallery Segregation Based On Collection
+    - Autoload More on Scroll
     - ✅ Alternate Grid Gallery
     - ✅ Nav
     - ✅ Modal Exit Button
@@ -40,21 +46,24 @@ TODO:
 3. Main Page
     - ✅ Add Profile Image 
     - ✅ Use Drive Images For Faster Load Times
-    - Collections Cards Horizontal Carousel
-    - Add Zentangle Collection 
+    - ✅ Main Horizontal Carousel
+    - ✅ Add Zentangle Collection 
 
 4. Commenting
+    - Collapsable Reviews (Read All Reviews) - Not sure if required anymore
     - ✅ Setup FB Path
     - ✅ Figure out Auth/ID
     - ✅ Create Interface
+    - ✅ Write Review Button
+    
 
-5. Contact Page To Email
+5. Contact Page To Email - Not sure if required anymore
 
 5. Styling:
-    - Carousel Next Button Styling + Current Indicators + Aspect Ratio Fix
+    - ✅ Carousel Next Button Styling + Current Indicators + Aspect Ratio Fix
     - About Section Visual Appeal
     - Navbar Font Increase
-    - Contact Form + About
+    - ✅ Contact Form
     - Hover Effects On Cards
     - Brush Font / Animation On Hero Section
     - Scroll Parallax Effects
@@ -63,3 +72,7 @@ TODO:
     - Adding More Useful Comments
     - Making Helper Functions To Reduce Monolithic Jquery (admin.js/client.js)
     - Error Handling
+
+7. Navbar:
+    - Figure out a way to make it constant across pages without manual rewrite
+    - Autopopulate collections

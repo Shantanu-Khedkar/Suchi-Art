@@ -89,17 +89,13 @@
     </div>
     <br>
     <br>
-    <div class="container-fluid galleryDesc text-center" style="display: none;">
-        <h2></h2>
-        <p class="fs-4"></p>
-        <br>
-    </div>
+
     <div class="container-fluid"
         style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <div class="row justify-content-center gallery mb-5" id="gallery">
 
         </div>
-        <button class="button text-dark rounded moreBtn secondary" style="display:none" id="loadMore"><b>Load
+        <button class="button text-dark rounded moreBtn secondary" style="display: none;" id="loadMore"><b>Load
                 More</b></button>
     </div>
 
@@ -231,7 +227,16 @@
         </div>
     </template>
 
-
+    <template id="galleryDesc">
+        <div class="container-fluid galleryDesc text-center">
+            <br>
+            <h2></h2>
+            <p style="margin-bottom: 2px;" class="fs-4"></p>
+            <br>
+            <a href="" class="container button rounded secondary">Explore <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+            <br><br>
+        </div>
+    </template>
     <script src="web/client.js" type="module"></script>
     <script type="module">
         import * as gly from './web/gallery.js';
@@ -259,30 +264,46 @@
             })
             window.location = window.location.origin + window.location.pathname + "?" + qs
         }
+        await fb.pullData()
+        galleryDesc = document.getElementById('galleryDesc')
+
+
 
         if (collection.length == 1) {
-            fb.pullData().then(() => {
-                document.querySelector(".galleryDesc").getElementsByTagName("h2")[0].innerText = collection[0]
-                document.querySelector(".galleryDesc").getElementsByTagName("p")[0].innerText = collections[collection[0]].desc
-                document.querySelector(".galleryDesc").style.display = "block"
+            let clon = document.importNode(galleryDesc.content, true);
+            clon.querySelector('h2').innerText = collection[0]
+            clon.querySelector('p').innerText = collections[collection[0]].desc
+            document.getElementById('gallery').appendChild(clon)
+            gly.initialisePanel(1, 15, document.getElementById('gallery'), collection).then((m) => {
+                console.log(m)
+                if (m > 0) {
+
+                    document.getElementById("loadMore").style.display = "flex"
+                }
             })
 
+        } else {
+            Object.keys(collections).forEach((i) => {
+                if (i != 'Folk paintings' && i != 'Crafts' && (collection.length == 0 || collection.includes(i))) {
+                let clon = document.importNode(galleryDesc.content, true);
+                clon.querySelector('h2').innerText = i
+                clon.querySelector('p').innerText = collections[i].desc
+                clon.querySelector('a').href = `gallery.html?c=${i}`
+                clon.querySelector('a').style="display:inline"
+                document.getElementById('gallery').appendChild(clon)
+                gly.loadProjects(projects, 5, gallery, [i])
+                }
+            })
         }
 
-        gly.initialisePanel(1, 10, document.getElementById('gallery'), collection).then((m) => {
-            console.log(m)
-            if (m > 0) {
-
-                document.getElementById("loadMore").style.display = "flex"
-            }
-        })
         document.getElementById("loadMore").addEventListener('click', function () {
-            gly.loadProjects(projects, 10, gallery, collection).then((m) => {
+            gly.loadProjects(projects, 20, gallery, collection).then((m) => {
                 if (!(m > 0)) {
                     this.style.display = "none"
                 }
             });
         });
+
     </script>
 
 </body>
