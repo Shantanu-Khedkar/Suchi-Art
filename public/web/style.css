@@ -1,6 +1,22 @@
 html {
     scroll-behavior: smooth;
+    
 }
+
+ :root {
+
+  --red: #ff9f92;
+  --yellow: #ffe08c;
+  --light-pink: #f4e2e1;
+  --navy-blue:#236187;
+  --pink: #6f382b;
+  --bottle-green: #314e42;
+  --light-green : #f6fae9;
+}
+body{
+    
+}
+
 
 nav {
     background-color: #f8f9faa8;
@@ -29,8 +45,8 @@ nav {
 }
 
 .hero {
-    background: #F1C7BD;
-    background: linear-gradient(270deg, rgba(241, 199, 189, 1) 0%, rgba(249, 228, 198, 1) 50%, rgba(200, 222, 226, 1) 100%);
+    background: var(--pink);
+    background: linear-gradient(90deg, var(--red) 0%, var(--yellow) 100%);
 }
 
 .banner {
@@ -38,16 +54,46 @@ nav {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    background-image: url('https://lh3.googleusercontent.com/d/1fd9EjGQcE8dvN1O0FtH6ZKre15qoY4C-=w600?authuser=0');
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: contain;
 
+    position: relative;
     flex-grow: 1;
     max-height: 80vh;
 
+    overflow: hidden;
     aspect-ratio: 1/1;
 
+}
+
+.banner-image {
+    background-image: url('../assets/banner_new.jpg');
+    aspect-ratio: 1/1;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    border-radius: 10%;
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.banner-title {
+    position: absolute;
+    bottom: 10px;
+    width: 90%;
+    background-color: #ffffffa0;
+    backdrop-filter: blur(10px);
+    border-radius: 2em;
+    text-align: center;
+}
+
+.banner-title h2 {
+    padding: 0;
+    margin: 0;
+    text-align: center;
+    line-height: 2em;
+    font-weight: bolder;
+    color: black;
 }
 
 .greeting {
@@ -109,12 +155,13 @@ nav {
 }
 
 .badge-custom {
-    background-color: #F1C7BD;
+    background-color: var(--light-pink);
     margin: 2px;
-
+    color: var(--pink);
     min-width: 10px;
     width: min-content;
     display: block !important;
+    border: 1px solid var(--pink);
 }
 
 .card-wrapper {
@@ -123,6 +170,9 @@ nav {
     align-items: center;
     display: flex;
 }
+.card-body{
+    background-color: var(--light-pink);
+}
 
 .modal-content {
     margin: 0px !important;
@@ -130,12 +180,12 @@ nav {
 }
 
 .secondary {
-    background-color: #c8dee2 !important;
-    color: black !important;
+    background-color: var(--orange) !important;
+    color: rgb(255, 255, 255) !important;
 }
 
 .secondary:hover {
-    color: black !important;
+    color: rgb(255, 255, 255) !important;
 }
 
 .about-image {
@@ -147,7 +197,10 @@ nav {
     aspect-ratio: 1/1;
 
 }
-
+.about-section{
+   background-color: var(--light-green);
+   color: var(--bottle-green);
+}
 .about-image-wrapper {
     display: flex;
     justify-content: center;
@@ -235,9 +288,10 @@ nav {
     margin-bottom: 20px;
     gap: 15px;
     border: 1px solid #cccccc;
-    background-color: #e9ecef;
+    background-color:var(--light-pink);
     flex-wrap: wrap;
     position: relative;
+    color: var(--pink);
 }
 
 .comment.verified::after {
@@ -248,7 +302,7 @@ nav {
     background-color: goldenrod;
 }
 
-.comment::after{
+.comment::after {
     content: '';
     display: block;
     position: absolute;
@@ -268,6 +322,7 @@ nav {
     display: flex;
     flex-direction: column;
     min-width: 80%;
+    
 
 }
 
@@ -306,13 +361,15 @@ nav {
 .feedback.fill-field::after {
     content: "Please Fill This Field";
 }
-.icon-grid{
+
+.icon-grid {
     display: flex;
     justify-content: center;
-    gap:10px
+    gap: 10px
 }
-.link-icon{
-    all:unset;
+
+.link-icon {
+    all: unset;
     display: flex;
     aspect-ratio: 1/1;
     font-size: x-large;
@@ -323,10 +380,12 @@ nav {
     justify-content: center;
     align-items: center;
 }
-.link-icon:hover{
-text-decoration: none;
+
+.link-icon:hover {
+    text-decoration: none;
 }
-#reviews-section .comment::after{
+
+#reviews-section .comment::after {
     content: '';
     display: none;
 }

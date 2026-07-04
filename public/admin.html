@@ -159,28 +159,47 @@
     </template>
 
 
-        <div id="commentModal" class="modal" tabindex="-1" role="dialog">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" contenteditable="true"></h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <span class="modal-name" contenteditable="true"></span>
-                        <p class="modal-message" contenteditable="true"></p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="publishComment" data-dismiss="modal" class="btn btn-primary">Publish</button>
-                        <button type="button" id="deleteComment" data-dismiss="modal" class="btn btn-danger">Delete</button>
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+    <div id="commentModal" class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" contenteditable="true"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <span class="modal-name" contenteditable="true"></span>
+                    <p class="modal-message" contenteditable="true"></p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="publishComment" data-dismiss="modal"
+                        class="btn btn-primary">Publish</button>
+                    <button type="button" id="deleteComment" data-dismiss="modal" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
+    <template id="card-template">
+        <div class="col-sm-4 justify-content-center row">
+            <div class="card rounded gridView">
+                <img class="card-img-top" src="assets/logo.png" alt="Loading image..." data-toggle="modal"
+                    data-target="#viewModal">
 
+                <div class="card-body">
+                    <span class="badge badge-custom">Primary</span>
+                    <hr>
+                    <h5 class="card-title">Card title</h5>
+                    <p class="card-text">Card text</p>
+                    <a href="#" class="container button rounded text-light" style="background-color: rgb(44, 119, 151);"
+                        data-toggle="modal" data-target="#editModal"><i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="#" class="container button btn-danger rounded text-light" data-toggle="modal"
+                        data-target="#deleteModal"><i class="fa-solid fa-trash"></i></a>
+                </div>
+            </div>
+        </div>
+    </template>
 
     <template id="largeModalCarousel">
         <div id="carouselControls" class="carousel slide" data-ride="carousel">
@@ -215,9 +234,9 @@
         <div class="container-fluid comment rounded" data-toggle="modal" data-target="#commentModal">
             <div class="comment-body">
 
-                <h4 class="comment-title" ><b>Loading Title</b></h4>
-                <p>~ <b class="comment-name" >Loading Name</b></p>
-                <span class="comment-content" >Loading Comment</span>
+                <h4 class="comment-title"><b>Loading Title</b></h4>
+                <p>~ <b class="comment-name">Loading Name</b></p>
+                <span class="comment-content">Loading Comment</span>
 
             </div>
         </div>
@@ -292,16 +311,16 @@
 
             let ucomments = await fb.pullItems("unverified_comments", "authed")
             let vcomments = await fb.pullItems("verified_comments")
-            if(ucomments){
-            Object.keys(ucomments).forEach((comment) => {
-                cmt.listComment(comment, ucomments[comment], "unverified")
-            })
-        }
-        if (vcomments){
-            Object.keys(vcomments).forEach((comment) => {
-                cmt.listComment(comment, vcomments[comment], "verified")
-            })
-        }
+            if (ucomments) {
+                Object.keys(ucomments).forEach((comment) => {
+                    cmt.listComment(comment, ucomments[comment], "unverified")
+                })
+            }
+            if (vcomments) {
+                Object.keys(vcomments).forEach((comment) => {
+                    cmt.listComment(comment, vcomments[comment], "verified")
+                })
+            }
 
             await driveUpdate();
 

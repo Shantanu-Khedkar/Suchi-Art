@@ -88,6 +88,7 @@ export async function loadCollections(collections, length, gallery) {
 export function listProject(project, details, gallery, list = 1) {
     //console.log(project, details, projects)
     let temp = document.getElementById("card-template");
+    console.log(temp)
     let clon = document.importNode(temp.content, true);
 
     // Definitions of elements to set
