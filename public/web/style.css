@@ -256,6 +256,7 @@ nav {
     background-color: #2d2d2d75 !important;
     backdrop-filter: blur(10px);
     border-radius: 10px;
+    display: none;
 }
 .moreBtn {
     margin-bottom: 20px;
