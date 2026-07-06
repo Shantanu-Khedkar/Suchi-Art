@@ -1,22 +1,18 @@
 html {
     scroll-behavior: smooth;
-    
+
 }
 
- :root {
+:root {
 
-  --red: #ff9f92;
-  --yellow: #ffe08c;
-  --light-pink: #f4e2e1;
-  --navy-blue:#236187;
-  --pink: #6f382b;
-  --bottle-green: #314e42;
-  --light-green : #f6fae9;
+    --red: #ff9f92;
+    --yellow: #ffe08c;
+    --light-pink: #f4e2e1;
+    --navy-blue: #236187;
+    --pink: #6f382b;
+    --bottle-green: #314e42;
+    --light-green: #f6fae9;
 }
-body{
-    
-}
-
 
 nav {
     background-color: #f8f9faa8;
@@ -150,6 +146,14 @@ nav {
     gap: 20px;
 }
 
+.collection-gallery {
+    display: flex;
+    flex-direction: row;
+    overflow: scroll;
+    padding-bottom: 10px;
+    justify-content: safe center;
+}
+
 .gallery .col-sm-4 {
     min-width: min-content;
     max-width: max-content;
@@ -171,7 +175,8 @@ nav {
     align-items: center;
     display: flex;
 }
-.card-body{
+
+.card-body {
     background-color: var(--light-pink);
 }
 
@@ -207,10 +212,12 @@ nav {
     aspect-ratio: 1/1;
 
 }
-.about-section{
-   background-color: var(--light-green);
-   color: var(--bottle-green);
+
+.about-section {
+    background-color: var(--light-green);
+    color: var(--bottle-green);
 }
+
 .about-image-wrapper {
     display: flex;
     justify-content: center;
@@ -252,12 +259,14 @@ nav {
     margin: 10px;
     display: flex !important;
 }
-.carousel-caption{
+
+.carousel-caption {
     background-color: #2d2d2d75 !important;
     backdrop-filter: blur(10px);
     border-radius: 10px;
     display: none;
 }
+
 .moreBtn {
     margin-bottom: 20px;
     width: 80%;
@@ -302,8 +311,8 @@ nav {
     min-height: 5em;
     margin-bottom: 20px;
     gap: 15px;
-    border: 1px solid #cccccc;
-    background-color:var(--light-pink);
+    border: 1px solid #f7d8d8;
+    background-color: var(--light-pink);
     flex-wrap: wrap;
     position: relative;
     color: var(--pink);
@@ -337,7 +346,7 @@ nav {
     display: flex;
     flex-direction: column;
     min-width: 80%;
-    
+
 
 }
 
@@ -404,3 +413,4 @@ nav {
     content: '';
     display: none;
 }
+
