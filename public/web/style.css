@@ -182,6 +182,7 @@ nav {
 
 .modal-content {
     margin: 0px !important;
+    border:none !important;
 
 }
 
