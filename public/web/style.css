@@ -149,7 +149,7 @@ nav {
 .collection-gallery {
     display: flex;
     flex-direction: row;
-    overflow: scroll;
+    overflow-x: scroll;
     padding-bottom: 10px;
     justify-content: safe center;
 }
