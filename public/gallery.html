@@ -304,7 +304,7 @@
 
         } else {
             Object.keys(collections).forEach((i) => {
-                if (i != 'Folk paintings' && i != 'Crafts' && (collection.length == 0 || collection.includes(i))) {
+                if (i != 'Folk paintings' && i != 'Crafts' && i != 'Resources' && i != "Latest creations" && (collection.length == 0 || collection.includes(i))) {
                     let clon = document.importNode(galleryDesc.content, true);
                     clon.querySelector('h2').innerText = i
                     clon.querySelector('p').innerText = collections[i].desc
