@@ -103,56 +103,62 @@
     </div>
 
     <div class="container-fluid">
-    <h1 class="text-center text-md-left" style="margin-bottom:0"><b>Latest Creations</b></h1>
-    <br>
-    <div id="mainCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
+        <h1 class="text-center text-md-left" style="margin-bottom:0"><b>Latest Creations</b></h1>
+        <br>
+        <div id="mainCarousel" class="carousel slide" data-ride="carousel" data-interval="5000">
 
-        <!-- Indicators -->
-        <ul class="carousel-indicators">
-            <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
-            <li data-target="#mainCarousel" data-slide-to="1"></li>
-            <li data-target="#mainCarousel" data-slide-to="2"></li>
-            <li data-target="#mainCarousel" data-slide-to="3"></li>
-            <li data-target="#mainCarousel" data-slide-to="4"></li>
-        </ul>
+            <!-- Indicators -->
+            <ul class="carousel-indicators">
+                <li data-target="#mainCarousel" data-slide-to="0" class="active"></li>
+                <li data-target="#mainCarousel" data-slide-to="1"></li>
+                <li data-target="#mainCarousel" data-slide-to="2"></li>
+                <li data-target="#mainCarousel" data-slide-to="3"></li>
+                <li data-target="#mainCarousel" data-slide-to="4"></li>
+                <li data-target="#mainCarousel" data-slide-to="5"></li>
+            </ul>
 
-        <!-- The slideshow -->
-        <div class="carousel-inner" style="background-color: var(--light-green);" height="800">
-            <div class="carousel-item active">
-                <img src="firebase-assets/Balali Tanjore.jpg" alt="Balaji" width="100%" height="600"
-                    style="object-fit: contain; object-position: middle;">
+            <!-- The slideshow -->
+            <div class="carousel-inner" style="background-color: var(--light-green);" height="800">
+                <div class="carousel-item active">
+                    <img src="firebase-assets/FIFA World Cup.png" alt="Balaji" width="100%" height="600"
+                        style="object-fit: contain; object-position: middle;">
 
+                </div>
+                <div class="carousel-item">
+                    <img src="firebase-assets/Balali Tanjore.jpg" alt="Balaji" width="100%" height="600"
+                        style="object-fit: contain; object-position: middle;">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="firebase-assets/FiguresAndColours.jpeg" alt="Figures And Colours" width="100%"
+                        height="600" style="object-fit: contain; object-position: middle;">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="firebase-assets/LippanMandalaArt.jpeg" alt="Lippan Mandala" width="100%" height="600"
+                        style="object-fit: contain; object-position: middle;">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="firebase-assets/MahaLamp.jpeg" alt="Maha Lamp" width="100%" height="600"
+                        style="object-fit: contain; object-position: middle;">
+
+                </div>
+                <div class="carousel-item">
+                    <img src="firebase-assets/PichwaiCowLotus.jpeg" alt="PichwaiCowLotus" width="100%" height="600"
+                        style="object-fit: contain; object-position: middle;">
+
+                </div>
             </div>
-            <div class="carousel-item">
-                <img src="firebase-assets/FiguresAndColours.jpeg" alt="Figures And Colours" width="100%" height="600"
-                    style="object-fit: contain; object-position: middle;">
 
-            </div>
-            <div class="carousel-item">
-                <img src="firebase-assets/LippanMandalaArt.jpeg" alt="Lippan Mandala" width="100%" height="600"
-                    style="object-fit: contain; object-position: middle;">
-
-            </div>
-            <div class="carousel-item">
-                <img src="firebase-assets/MahaLamp.jpeg" alt="Maha Lamp" width="100%" height="600"
-                    style="object-fit: contain; object-position: middle;">
-
-            </div>
-            <div class="carousel-item">
-                <img src="firebase-assets/PichwaiCowLotus.jpeg" alt="PichwaiCowLotus" width="100%" height="600"
-                    style="object-fit: contain; object-position: middle;">
-
-            </div>
+            <!-- Left and right controls -->
+            <a class="carousel-control-prev" href="#mainCarousel" data-slide="prev">
+                <i class="fs-4 fa-solid fa-caret-left text-dark"></i>
+            </a>
+            <a class="carousel-control-next" href="#mainCarousel" data-slide="next">
+                <i class="fs-4 fa-solid fa-caret-right text-dark"></i>
+            </a>
         </div>
-
-        <!-- Left and right controls -->
-        <a class="carousel-control-prev" href="#mainCarousel" data-slide="prev">
-            <i class="fs-4 fa-solid fa-caret-left text-dark"></i>
-        </a>
-        <a class="carousel-control-next" href="#mainCarousel" data-slide="next">
-            <i class="fs-4 fa-solid fa-caret-right text-dark"></i>
-        </a>
-    </div>
     </div>
     <br>
     <!--Gallery Section-->
@@ -450,10 +456,10 @@
         document.getElementById('comment-count').innerText = "(" + (Object.keys(comments).length) + ")"
         // List specific collections
         // gly.listCollection(<NAME>, <DETAILS>, <GALLERY>) Here <DETAILS> is found as collections[<NAME>] and <GALLERY> is the gallery element
-        Object.keys(collections).forEach((col)=>{
-        if ((col != "Writeups Web") && (col != "Resources") && (col != "Latest creations")){
-            gly.listCollection(col, collections[col], gallery)
-        }
+        Object.keys(collections).forEach((col) => {
+            if ((col != "Writeups Web") && (col != "Resources") && (col != "Latest creations")) {
+                gly.listCollection(col, collections[col], gallery)
+            }
         })
 
 
